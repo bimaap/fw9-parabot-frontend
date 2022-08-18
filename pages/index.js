@@ -17,8 +17,8 @@ export default function LandingPage(){
                         <span className="text-center text-7xl font-bold">Minimal Furniture Store</span>
                         <span className="text-center text-lg font-medium">Donec nunc nunc, gravida vitae diam vel, varius interdum erat. Quisque a nunc vel diam auctor commodo.<br />Curabitur blandit ultrices ex. Curabitur ut magna dignissim, dignissim</span>
                     </div>
-                    <div className="flex flex-col items-center">
-                        <span className="font-semibold">Explore now</span>
+                    <div className='flex flex-col items-center'>
+                        <span className='font-semibold'>Explore now</span>
                         <TbChevronDown />
                     </div>
                 </div>
@@ -47,7 +47,7 @@ export default function LandingPage(){
                                 </div>
                             </div>
                         </div>
-                        <img src='/images/lamp.png' alt='bg' className="lamp" />
+                        <img src='/images/lamp.png' alt='bg' className='lamp' />
                     </div>
                     <div className="flex">
                         <img src='/images/chair.png' alt='bg' className="chair" />
@@ -73,7 +73,7 @@ export default function LandingPage(){
                                 </div>
                             </div>
                         </div>
-                        <img src='/images/ceramic.png' alt='bg' className="ceramic" />
+                        <img src='/images/ceramic.png' alt='bg' className='ceramic' />
                     </div>
                     <div className="flex">
                         <img src='/images/plate.png' alt='bg' className="plate" />
@@ -99,7 +99,7 @@ export default function LandingPage(){
                                 </div>
                             </div>
                         </div>
-                        <img src='/images/floor_lamp.png' alt='bg' className="floor_lamp" />
+                        <img src='/images/floor_lamp.png' alt='bg' className='floor_lamp' />
                     </div>
                 </div>
                 <Footer />

@@ -22,6 +22,7 @@ export default function Header(){
                     <Link href={'/#'}><span className="font-semibold cursor-pointer">HOME</span></Link>
                     <div className="flex items-center gap-1 cursor-pointer" id="page" onClick={(e)=> pagePos(e)}>
                         <span className="font-semibold">PAGES</span>
+
                         <TbChevronDown />
                     </div>
                     {
