@@ -1,5 +1,5 @@
 
-import { TbSearch, TbHeart, TbShoppingCart, TbAlignRight, TbChevronDown } from "react-icons/tb";
+import { TbSearch, TbHeart, TbShoppingCart, TbAlignRight, TbChevronDown } from 'react-icons/tb';
 
 export default function Header(){
     return(
@@ -12,19 +12,19 @@ export default function Header(){
                         <span className="font-semibold">PAGES</span>
                         <TbChevronDown />
                     </div>
-                    <div className="flex items-center gap-1">
-                        <span className="font-semibold">SHOP</span>
+                    <div className='flex items-center gap-1'>
+                        <span className='font-semibold'>SHOP</span>
                         <TbChevronDown />
                     </div>
-                    <span className="font-semibold">BLOG</span>
+                    <span className='font-semibold'>BLOG</span>
                 </div>
-                <div className="flex gap-8 text-center justify-center text-gray-700">
-                    <TbSearch className="text-2xl" />
-                    <TbHeart className="text-2xl" />
-                    <TbShoppingCart className="text-2xl" />
-                    <TbAlignRight className="text-2xl" />
+                <div className='flex gap-8 text-center justify-center text-gray-700'>
+                    <TbSearch className='text-2xl' />
+                    <TbHeart className='text-2xl' />
+                    <TbShoppingCart className='text-2xl' />
+                    <TbAlignRight className='text-2xl' />
                 </div>
             </div>
         </header>
-    )
+    );
 }
