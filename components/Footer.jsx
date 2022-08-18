@@ -4,8 +4,8 @@ import { TbMail, TbPhone, TbClock } from "react-icons/tb";
 
 export default function Footer(){
     return(
-        <footer className="bg-zinc-600 flex justify-center items-center">
-            <div className="w-[1200px] flex flex-col justify-between items-center text-slate-300">
+        <footer className="bg-zinc-600 flex justify-center items-center w-full">
+            <div className="flex flex-col w-[1400px] justify-between items-center text-slate-300">
                 <div className="w-full py-20 flex justify-between">
                     <div className="flex flex-col w-80 gap-8">
                         <span className="text-3xl font-medium">ParaBot</span>
