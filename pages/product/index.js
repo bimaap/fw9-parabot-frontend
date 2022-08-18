@@ -7,7 +7,7 @@ function product() {
     return (
         <>
             <Header />
-            <Banner basePath='Shop' basePathUrl='#' targetPath='product' targetPathUrl='#' titleBanner='Let’s Shopping' subtitleBanner='Find and buy the one you like'/>
+            <Banner basePath='Shop' targetPath='product' titleBanner='Let’s Shopping' subtitleBanner='Find and buy the one you like'/>
             <div>product</div>
             <Footer />
         </>

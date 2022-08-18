@@ -12,7 +12,7 @@ function Banner({basePath, basePathUrl, targetPath, targetPathUrl, titleBanner, 
                         <nav className='flex px-5 py-3'>
                             <ol className='inline-flex items-center space-x-1 md:space-x-3'>
                                 <li className='inline-flex items-center'>
-                                    <Link href={basePathUrl} >
+                                    <Link href={basePathUrl??'#'} >
                                         <a className='text-sm font-medium text-gray-700 hover:text-gray-900 dark:hover:text-white'>
                                             {basePath}
                                         </a>
@@ -21,7 +21,7 @@ function Banner({basePath, basePathUrl, targetPath, targetPathUrl, titleBanner, 
                                 <li>
                                     <div className='flex items-center'>
                                         <FiChevronRight/>
-                                        <Link href={targetPathUrl}>
+                                        <Link href={targetPathUrl??'#'}>
                                             <a className='ml-2 text-sm font-medium text-gray-700 hover:text-gray-900 dark:hover:text-white'>{targetPath}</a>
                                         </Link>
                                     </div>
