@@ -19,4 +19,20 @@ input[type=range] {
     appearance: none;
     background: linear-gradient(#1a1a1a, #1a1a1a) no-repeat center;
     background-size: 100% 5px;
+
+.chats-title{
+    font-family: 'Arimo';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+}
+
+.chats-text{
+    font-family: 'Arimo';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+
 }
