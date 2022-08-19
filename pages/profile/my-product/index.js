@@ -3,7 +3,7 @@ import Banner from '../../../components/Banner';
 
 function MyProduct() {
     return (
-        <Banner titleBanner='MyProduct' subtitleBanner='test'/>
+        <Banner basePath={'test'} titleBanner='MyProduct' subtitleBanner='test'/>
     );
 }
 
