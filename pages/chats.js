@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import Banner from '../components/Banner';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
 
 const schemaChat = Yup.object().shape({
     chats: Yup.string().min(1).required()
@@ -27,6 +28,13 @@ const FormChats = ({errors,handleChange,handleSubmit}) =>{
 };
 
 const Chats = () => {
+    const dispatch = useDispatch();
+    const sendChat = (val) =>{
+        dispatch(sending({token,text:val.chats}));
+    };
+    React.useEffect(()=>{
+        dispatch(getChatting({token}));
+    },[]);
     return (
         <>
             <Header/>
@@ -51,7 +59,7 @@ const Chats = () => {
                                 </div>
                                 <div className=' ml-5'>
                                     <p className='chats-title text-[#1A1A1A]'>Syifa Guys</p>
-                                    <p className='chats-text text-[#4D4D4D]'>Selamat datang</p>
+                                    <p className='chats-text text-[#4D4D4D]'>isi chat terakhir</p>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +85,7 @@ const Chats = () => {
                                     </div>
                                 </div>
                                 <div className='m-6'>
-                                    <Formik validationSchema={schemaChat} initialValues={{chats:''}} onSubmit>
+                                    <Formik validationSchema={schemaChat} initialValues={{chats:''}} onSubmit={sendChat}>
                                         {(props)=><FormChats{...props}/>}
                                     </Formik>
                                 </div>
