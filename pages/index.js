@@ -5,6 +5,7 @@ import { TbChevronDown } from "react-icons/tb";
 import Link from "next/link";
 
 export default function LandingPage(){
+    // Hi
     return(
         <div>
             <Header />
