@@ -10,7 +10,27 @@ import Footer from '../../../../components/Footer';
 import Header from '../../../../components/Header';
 import ImgDummy from '../../../../public/images/chair.png';
 import ImgDummy2 from '../../../../public/images/sofa.png';
-import ImgDummy3 from '../../../../public/images/item-example.png';
+import ImgProfile from '../../../../public/connor.png';
+import ImgProfile2 from '../../../../public/maudey.png';
+import { Formik } from 'formik';
+
+const DetailProductTabContent = ({imgPath }) => {
+    return (
+        <>
+            <div className='col-start-1 col-end-3'>
+                <Image src={imgPath} alt='imgDesc' height={450}/>
+            </div>
+            <div className='col-start-3 col-end-6'>
+                <span className='text-sm'>Donec accumsan auctor iaculis. Sed suscipit arcu ligula, at egestas magna molestie a. Proin ac ex maximus, ultrices justo eget, sodales orci. Aliquam egestas libero ac turpis pharetra, in vehicula lacus scelerisque. Vestibulum ut sem laoreet, feugiat tellus at, hendrerit arcu..</span>
+                <ul className='list-disc pl-10 text-sm my-5'>
+                    <li className='mb-5'>Maecenas eu ante a elit tempus fermentum. Aliquam commodo tincidunt semper</li>
+                    <li className=''>Aliquam est et tempus. Eaecenas libero ante, tincidunt vel</li>
+                </ul>
+                <span className='text-sm mt-5'>Nunc lacus elit, faucibus ac laoreet sed, dapibus ac mi. Maecenas eu ante a elit tempus fermentum. Aliquam commodo tincidunt semper. Phasellus accum</span>
+            </div>
+        </>
+    );
+};
 
 const BreadCumbProductDetail = () => {
     return(
@@ -185,17 +205,98 @@ function ProductDetail() {
                         })}
                     </div>
                     <div className='grid grid-cols-5 gap-10'>
-                        <div className='col-start-1 col-end-3'>
-                            <Image src={imgList[0]} alt='imgDesc' height={450}/>
-                        </div>
-                        <div className='col-start-3 col-end-6'>
-                            <span className='text-sm'>Donec accumsan auctor iaculis. Sed suscipit arcu ligula, at egestas magna molestie a. Proin ac ex maximus, ultrices justo eget, sodales orci. Aliquam egestas libero ac turpis pharetra, in vehicula lacus scelerisque. Vestibulum ut sem laoreet, feugiat tellus at, hendrerit arcu..</span>
-                            <ul className='list-disc pl-10 text-sm my-5'>
-                                <li className='mb-5'>Maecenas eu ante a elit tempus fermentum. Aliquam commodo tincidunt semper</li>
-                                <li className=''>Aliquam est et tempus. Eaecenas libero ante, tincidunt vel</li>
-                            </ul>
-                            <span className='text-sm mt-5'>Nunc lacus elit, faucibus ac laoreet sed, dapibus ac mi. Maecenas eu ante a elit tempus fermentum. Aliquam commodo tincidunt semper. Phasellus accum</span>
-                        </div>
+                        {tabActive === 0 ? <DetailProductTabContent imgPath={imgList[0]}/> : <div className='flex flex-col col-start-2 col-end-5 gap-20'>
+                            <div className='flex flex-col items-center'>                                
+                                <div className='flex gap-10 items-center border-b-2 pb-16'>
+                                    <div className='flex justify-start w-1/2'>
+                                        <Image src={ImgProfile} alt='img1' width='150px' height='150px' objectFit='cover' className='rounded-full'/>
+                                    </div>
+                                    <div className='flex flex-col gap-5'>
+                                        <span>{'“Highly customizable. Excellent design. Customer services has exceeded my expectation. They are quick to answer and even when they don\'t know the answer right away. They\'ll work with you towards a solution.”'}</span>
+                                        <div className='flex gap-5 items-center'>
+                                            <span className='text-xs text-gray-500'>35 mins ago, 15 November 2019</span>
+                                            <span className='text-xs'>Reply</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='flex gap-10 items-center border-b-2 pb-16 pt-16'>
+                                    <div className='flex justify-start w-1/2'>
+                                        <Image src={ImgProfile2} alt='img1' width='150px' height='150px' objectFit='cover' className='rounded-full'/>
+                                    </div>
+                                    <div className='flex flex-col gap-5'>
+                                        <span>{'“Highly customizable. Excellent design. Customer services has exceeded my expectation. They are quick to answer and even when they don\'t know the answer right away. They\'ll work with you towards a solution.”'}</span>
+                                        <div className='flex gap-5 items-center'>
+                                            <span className='text-xs text-gray-500'>35 mins ago, 15 November 2019</span>
+                                            <span className='text-xs'>Reply</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='flex gap-10 items-center border-b-2 pb-16 pt-16'>
+                                    <div className='flex justify-start w-1/2'>
+                                        <Image src={ImgProfile} alt='img1' width='150px' height='150px' objectFit='cover' className='rounded-full'/>
+                                    </div>
+                                    <div className='flex flex-col gap-5'>
+                                        <span>{'“Highly customizable. Excellent design. Customer services has exceeded my expectation. They are quick to answer and even when they don\'t know the answer right away. They\'ll work with you towards a solution.”'}</span>
+                                        <div className='flex gap-5 items-center'>
+                                            <span className='text-xs text-gray-500'>35 mins ago, 15 November 2019</span>
+                                            <span className='text-xs'>Reply</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='flex flex-col gap-4'>
+                                <span className='text-4xl'>Leave A Comment</span>
+                                <span className='text-base'>Your email address will not be published. Required fields are marked *</span>
+                                <div className='flex gap-5'>
+                                    <Formik initialValues={{content: '', rating: 0}}>
+                                        {(props)=>{
+                                            return(
+                                                <form noValidate onSubmit={props.handleSubmit} onChange={props.handleChange} className='w-full flex flex-col gap-5 pt-10'>
+                                                    <span className='text-md'>Comment</span>
+                                                    <textarea
+                                                        name='content'
+                                                        rows='4'
+                                                        className='block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                                                        placeholder='Your Comment'
+                                                    />
+                                                    <span className='text-md'>Rating</span>
+                                                    <div className='flex gap-5'>
+                                                        <div className='flex gap-2'>
+                                                            <input name='rating' type='radio'/>
+                                                            <span>1</span>
+                                                        </div>
+                                                        <div className='flex gap-2'>
+                                                            <input name='rating' type='radio'/>
+                                                            <span>2</span>
+                                                        </div>
+                                                        <div className='flex gap-2'>
+                                                            <input name='rating' type='radio'/>
+                                                            <span>3</span>
+                                                        </div>
+                                                        <div className='flex gap-2'>
+                                                            <input name='rating' type='radio'/>
+                                                            <span>4</span>
+                                                        </div>
+                                                        <div className='flex gap-2'>
+                                                            <input name='rating' type='radio'/>
+                                                            <span>5</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className='flex justify-start'>
+                                                        <button
+                                                            type='submit'
+                                                            className='border border-gray-700 bg-[#1a1a1a] text-white rounded-md px-4 py-2 my-2 transition duration-500 ease select-none hover:bg-gray-800 focus:outline-none focus:shadow-outline'
+                                                        >
+                                                            Send Comment
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            );
+                                        }}
+                                    </Formik>
+                                </div>
+                            </div>
+                        </div>}
                     </div>
                 </div>
                 <div className='mt-32 mx-20'>
