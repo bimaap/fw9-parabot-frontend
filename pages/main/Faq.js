@@ -1,88 +1,144 @@
 import { MdOutlineLocalGroceryStore } from 'react-icons/md';
 import { FaWallet } from 'react-icons/fa';
 import { GrTasks } from 'react-icons/gr';
+import Image from 'next/image';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import Link from 'next/link';
 
 function Faq() {
     return (
-        <div>
-            <MdOutlineLocalGroceryStore />
-            <div>Payment Questions</div>
+        <>
+            <Header />
+            <div className='mx-12'>
+                <div>
+                    <div className='text-center my-10'>
+                        <MdOutlineLocalGroceryStore className='mx-auto text-5xl border-2 border-current rounded-full p-2'/>
+                        <div className='flex items-center justify-center'>
+                            <Image
+                                src='/list.png'
+                                alt='list'
+                                width={50}
+                                height={5}/>
+                            <span className='px-5 text-4xl font-normal'>Shopping Questions</span>
+                            <Image
+                                src='/list.png'
+                                alt='list'
+                                width={50}
+                                height={5} />
+                        </div>
+                    </div>
 
-            <div className='flex'>
-                <div>
-                    <span>Do you ship worldwide?</span>
-                    <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
-                </div>
-                <div>
-                    <span>How can I use a coupon code?</span>
-                    <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
-                </div>
-            </div>
-        
-            <div className='flex'>
-                <div>
-                    <span>Do you offer gift-vouchers?</span>
-                    <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
-                </div>
-                <div>
-                    <span>How can I request a refund?</span>
-                    <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
-                </div>
-            </div>
+                    <div className='flex'>
+                        <div className='mb-7'>
+                            <div className='text-2xl mb-5 font-normal'>Do you ship worldwide?</div>
+                            <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
+                        </div>
+                        <div>
+                            <div className='text-2xl mb-5 font-normal'>How can I use a coupon code?</div>
+                            <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
+                        </div>
+                    </div>
 
-            <FaWallet />
-            <div>Payment Questions</div>
-            <div className='flex'>
-                <div>
-                    <span>Do you ship worldwide?</span>
-                    <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
-                </div>
-                <div>
-                    <span>How can I use a coupon code?</span>
-                    <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
-                </div>
-            </div>
-        
-            <div className='flex'>
-                <div>
-                    <span>Do you offer gift-vouchers?</span>
-                    <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
-                </div>
-                <div>
-                    <span>How can I request a refund?</span>
-                    <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
-                </div>
-            </div>
+                    <div className='flex'>
+                        <div className='mb-7'>
+                            <div className='text-2xl mb-5 font-normal'>Do you offer gift-vouchers?</div>
+                            <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
+                        </div>
+                        <div>
+                            <div className='text-2xl mb-5 font-normal'>How can I request a refund?</div>
+                            <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
+                        </div>
+                    </div>
 
-            <GrTasks />
-            <div>Miscellaneous Questions</div>
-            <div className='flex'>
-                <div>
-                    <span>Do you ship worldwide?</span>
-                    <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
-                </div>
-                <div>
-                    <span>How can I use a coupon code?</span>
-                    <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
-                </div>
-            </div>
-        
-            <div className='flex'>
-                <div>
-                    <span>Do you offer gift-vouchers?</span>
-                    <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
-                </div>
-                <div>
-                    <span>How can I request a refund?</span>
-                    <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
-                </div>
-            </div>
+                    <div className='text-center my-8'>
+                        <FaWallet className='mx-auto text-5xl border-2 border-current rounded-full p-2'/>
+                        <div className='flex items-center justify-center'>
+                            <Image
+                                src='/list.png'
+                                alt='list'
+                                width={50}
+                                height={5} />
+                            <span className='px-5 text-4xl font-normal'> Payment Questions </span>
+                            <Image
+                                src='/list.png'
+                                alt='list'
+                                width={50}
+                                height={5} />
+                        </div>
+                    </div>
 
-            <span>You Still Need Help?</span>
-            <button className='bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'>
-                Contact Us
-            </button>
-        </div>
+                    <div className='flex'>
+                        <div className='mb-7'>
+                            <div className='text-2xl mb-5 font-normal'>Do you ship worldwide?</div>
+                            <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
+                        </div>
+                        <div>
+                            <div className='text-2xl mb-5 font-normal'>How can I use a coupon code?</div>
+                            <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
+                        </div>
+                    </div>
+
+                    <div className='flex'>
+                        <div className='mb-7'>
+                            <div className='text-2xl mb-5 font-normal'>Do you offer gift-vouchers?</div>
+                            <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
+                        </div>
+                        <div>
+                            <div className='text-2xl mb-5 font-normal'>How can I request a refund?</div>
+                            <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
+                        </div>
+                    </div>
+
+                    <div className='text-center my-10'>
+                        <GrTasks className='mx-auto text-5xl border-2 border-current rounded-full p-2' />
+                        <div className='flex items-center justify-center'>
+                            <Image
+                                src='/list.png'
+                                alt='list'
+                                width={50}
+                                height={5} />
+                            <span className='px-5 text-4xl font-normal'> Miscellaneous Questions</span>
+                            <Image
+                                src='/list.png'
+                                alt='list'
+                                width={50}
+                                height={5} />
+                        </div>
+                    </div>
+                </div>
+                <div className='flex'>
+                    <div className='mb-7'>
+                        <div className='text-2xl mb-5 font-normal'>Do you ship worldwide?</div>
+                        <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
+                    </div>
+                    <div>
+                        <div className='text-2xl mb-5 font-normal'>How can I use a coupon code?</div>
+                        <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
+                    </div>
+                </div>
+                <div className='flex'>
+                    <div>
+                        <div className='text-2xl mb-5 font-normal'>Do you offer gift-vouchers?</div>
+                        <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
+                    </div>
+                    <div>
+                        <div className='text-2xl mb-5 font-normal'>How can I request a refund?</div>
+                        <p>This is the third article of a three-part series. I’m illustrating the marketing challenges of PrescottWeddings.com, a small business. If you don’t remember anything else about marketing, remember this: Frequency is king.</p>
+                    </div>
+
+                </div>
+                <div className='flex flex-col text-center mx-auto my-10'>
+                    <span className='text-4xl mb-4 font-normal'>You Still Need Help?</span>
+                    <Link href='#'><a>
+                        <button className='text-white bg-black h-10 w-40 text-center mx-auto font-semibold'>
+                            Contact Us
+                        </button>
+                    </a></Link>
+                </div>
+            </div>
+            <Footer />
+        </>
     );
 };
 
