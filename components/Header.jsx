@@ -32,7 +32,7 @@ export default function Header(){
                     </div>
                     {
                         page.active&&
-                        <div style={{top: page.top, left: page.left}} className={`absolute rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none`}>
+                        <div style={{top: page.top, left: page.left}} className={`absolute rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10`}>
                             <div className="py-1" role="none">
                                 <a href="#" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem" id="menu-item-0">Account settings</a>
                                 <a href="#" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem" id="menu-item-1">Support</a>
@@ -46,7 +46,7 @@ export default function Header(){
                     </div>
                     {
                         shop.active&&
-                        <div style={{top: shop.top, left: shop.left}} className={`absolute rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none`}>
+                        <div style={{top: shop.top, left: shop.left}} className={`absolute rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10`}>
                             <div className="py-1" role="none">
                                 <a href="#" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem" id="menu-item-0">Account settings</a>
                             </div>
@@ -61,10 +61,10 @@ export default function Header(){
                     <TbAlignRight className='text-2xl cursor-pointer' onClick={(e)=> pageBurger(e)} />
                     {
                         burger.active&&
-                        <div style={{top: burger.top, left: burger.left}} className={`absolute rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none`}>
+                        <div style={{top: burger.top, left: burger.left}} className={`absolute rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10`}>
                             <div className="py-1" role="none">
-                                <Link href={'/login'}><span className="text-gray-700 block px-4 py-2 text-sm cursor-pointer" role="menuitem" id="menu-item-0">Login</span></Link>
-                                <Link href={'/register'}><span className="text-gray-700 block px-4 py-2 text-sm cursor-pointer" role="menuitem" id="menu-item-1">Register</span></Link>
+                                <Link href={'/login'}><span className="text-gray-700 px-4 py-2 text-sm cursor-pointer flex" role="menuitem" id="menu-item-0">Login</span></Link>
+                                <Link href={'/register'}><span className="text-gray-700 px-4 py-2 text-sm cursor-pointer flex" role="menuitem" id="menu-item-1">Register</span></Link>
                             </div>
                         </div>
                     }
