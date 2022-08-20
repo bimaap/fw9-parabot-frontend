@@ -5,6 +5,8 @@ import Footer from '../components/Footer';
 import Banner from '../components/Banner';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
+import { getAllChat, sending } from '../redux/asyncAction/chats';
 
 const schemaChat = Yup.object().shape({
     chats: Yup.string().min(1).required()
@@ -26,7 +28,22 @@ const FormChats = ({errors,handleChange,handleSubmit}) =>{
     );
 };
 
+const WrapperDynamic = () => {
+    return(
+        <>
+        
+        </>
+    );
+};
+
 const Chats = () => {
+    // const dispatch = useDispatch();
+    const sendChat = (val) =>{
+        dispatch(sending({token,text:val.chats}));
+    };
+    React.useEffect(()=>{
+        // dispatch(getAllChat({token}));
+    },[]);
     return (
         <>
             <Header/>
@@ -44,20 +61,20 @@ const Chats = () => {
                                     <p className='chats-text text-[#FFFFFF]'>online</p>
                                 </div>
                             </div>
-                            <div className='p-11 flex fonst'>
-                                {/* Map list user yang di chat COY!!! */}
+                            {/* Map list user yang di chat COY!!!  GET IDnya*/}
+                            <div className='p-11 flex'>
                                 <div className=''>
                                     <Image src='/vercel.svg' width={60} height={60} alt='profile'/>
                                 </div>
-                                <div className=' ml-5'>
+                                <div className=' ml-5' onClick>
                                     <p className='chats-title text-[#1A1A1A]'>Syifa Guys</p>
-                                    <p className='chats-text text-[#4D4D4D]'>Selamat datang</p>
+                                    <p className='chats-text text-[#4D4D4D]'>isi chat terakhir</p>
                                 </div>
                             </div>
                         </div>
                         <div className='col-span-3 border border-[#D1D1D1]'>
                             <div className=' p-11 flex items-center  bg-[#1A1A1A]'>
-                                {/* User Tujuan yang udah di klik COY */}
+                                {/* User Tujuan yang udah di klik COY*/}
                                 <div className=''>
                                     <Image src='/vercel.svg' width={60} height={60}  alt='profile'/>
                                 </div>
@@ -77,7 +94,7 @@ const Chats = () => {
                                     </div>
                                 </div>
                                 <div className='m-6'>
-                                    <Formik validationSchema={schemaChat} initialValues={{chats:''}} onSubmit>
+                                    <Formik validationSchema={schemaChat} initialValues={{chats:''}} onSubmit={sendChat}>
                                         {(props)=><FormChats{...props}/>}
                                     </Formik>
                                 </div>

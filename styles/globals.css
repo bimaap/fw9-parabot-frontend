@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.pattern {
+    background-image: url(../public/bigstock.png);
+    background-blend-mode: soft-light;
+    background-color: #F9F3F3;
+}
 *{
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -43,4 +49,14 @@ input[type=range] {
     font-weight: 400;
     font-size: 16px;
     line-height: 18px;
+}
+
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+
 }
