@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function Footer(){
     return(
-        <footer className="bg-zinc-600 flex justify-center items-center w-full px-5">
+        <footer className="bg-zinc-600 flex justify-center items-center w-full">
             <div className="flex flex-col max-w-[1400px] flex-1 justify-between items-center text-slate-300">
                 <div className="w-full py-20 flex justify-between">
                     <div className="flex flex-col w-80 gap-8">
