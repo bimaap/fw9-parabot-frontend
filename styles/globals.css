@@ -2,8 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
+
 .pattern {
     background-image: url(../public/bigstock.png);
     background-blend-mode: soft-light;
     background-color: #F9F3F3;
+
+*{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+input[type=range]::-webkit-slider-thumb{
+    height: 1.5em;
+    width: 1.5em;
+    border-radius: 28px;
+    border: 2px solid white;
+    background-color: #1a1a1a;
+    position: relative;
+    margin: 1px 0;
+    cursor: pointer;
+    appearance: none;
+    pointer-events: all;
+    box-shadow: 0 1px 4px 0.5px rgba(255, 255, 255, 0.7);
+}
+input[type=range] {
+    appearance: none;
+    background: linear-gradient(#1a1a1a, #1a1a1a) no-repeat center;
+    background-size: 100% 5px;
+}
+.chats-title{
+    font-family: 'Arimo';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+}
+
+.chats-text{
+    font-family: 'Arimo';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+}
+
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+
 }
