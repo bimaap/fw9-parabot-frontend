@@ -69,7 +69,7 @@ export default function Register(){
                                         </div>
                                     </div>
                                     <div>
-                                        <button className="bg-gray-800 w-[120px] h-[40px] text-white" onClick={() => onRegister(props)}>Check Out</button>
+                                        <button className="bg-gray-800 w-[120px] h-[40px] text-white" onClick={() => onRegister(props)}>Register</button>
                                     </div>
                                 </div>
                             </div>
