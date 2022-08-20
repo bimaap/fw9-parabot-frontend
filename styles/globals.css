@@ -7,7 +7,7 @@
     background-image: url(../public/bigstock.png);
     background-blend-mode: soft-light;
     background-color: #F9F3F3;
-
+}
 *{
     -webkit-touch-callout: none;
     -webkit-user-select: none;
