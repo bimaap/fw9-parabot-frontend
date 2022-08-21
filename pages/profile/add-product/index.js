@@ -6,6 +6,8 @@ import Banner from '../../../components/Banner';
 import Footer from '../../../components/Footer';
 import Header from '../../../components/Header';
 import * as Yup from 'yup';
+import Link from 'next/link';
+import Head from 'next/head';
 
 export const convertMoney = (number) => 
     Intl.NumberFormat('id-ID', {
@@ -25,7 +27,7 @@ const ProductForm = ({errors, handleSubmit, handleChange, image}) => {
     const [moneyNumber, setMoneyNumber] = React.useState();
     return(
         <>
-            <form onSubmit={handleSubmit} onChange={handleChange} className='flex justify-center py-24'>
+            <form onSubmit={handleSubmit} onChange={handleChange} className='flex justify-center pb-24'>
                 <div className='w-7/12 flex flex-col gap-20'>
                     <div className='flex flex-col gap-10'>
                         <span className='text-black font-semibold text-2xl'>
@@ -119,6 +121,10 @@ function AddNewProduct() {
     const [moneyNumber, setMoneyNumber] = React.useState([]);
     const [imgArr, setImgArr] = React.useState([]);
     
+    const menuTab = ['Profile', 'My Product', 'Selling Product', 'My Order'];
+    const linkTo = ['/profile/Seller', '/profile/my-product', '/profile/add-product', '#'];
+    const indexTab = 2;
+
     const onSubmitProduct = (val, e) => {
         // console.log(val);
         // console.log(imgFile);
@@ -131,12 +137,32 @@ function AddNewProduct() {
         setImgArr(arrImg);
     }, []);
     return (
-        <>
+        <>  
+            <Head>
+                <title>Profile - add product</title>
+            </Head>
             <Header />
             <Banner
                 titleBanner='Selling Product'
                 subtitleBanner='See your notifications for the latest updates'
             />
+            <div>
+                <div className='flex justify-evenly my-20'>
+                    {menuTab.map((e,i)=>{
+                        return (
+                            <>
+                                <Link href={linkTo[i]}>
+                                    <a>
+                                        <div className={`${i === indexTab ? 'border-b-4' : ''} border-black`}>
+                                            <span className='text-2xl'>{e}</span>
+                                        </div>
+                                    </a>
+                                </Link>
+                            </>
+                        );
+                    })}
+                </div>
+            </div>
             <section>
                 <Formik onSubmit={onSubmitProduct} validationSchema={productSchema} initialValues={{nameProduct: '', descProduct: '', priceProduct: '', stockProduct: '', newProduct: false, secondProduct: false, imgProduct: null}}>
                     {(props)=><ProductForm {...props} image={

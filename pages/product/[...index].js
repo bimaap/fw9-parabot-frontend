@@ -39,7 +39,7 @@ function Product() {
                         {itemsCol.map((e,i)=>{
                             return(
                                 <>
-                                    <CardProduct productUrl={`#${i}`} img={<Image src={ImgDummy} alt='img-dummy'/>} title='Coaster 506222-CO Loveseat' subtitle='$765.99' />
+                                    <CardProduct productUrl={`/product/${i}/details`} img={<Image src={ImgDummy} alt='img-dummy'/>} title='Coaster 506222-CO Loveseat' subtitle='$765.99' />
                                 </>
                             );
                         })}

@@ -4,17 +4,40 @@ import Footer from '../../components/Footer';
 import Image from 'next/image';
 import Head from 'next/head';
 import Link from 'next/link';
+import Banner from '../../components/Banner';
 
 import {FiEdit3, FiLogOut} from 'react-icons/fi';
 
 function Seller() {
+    const menuTab = ['Profile', 'My Product', 'Selling Product', 'My Order'];
+    const linkTo = ['/profile/Seller', '/profile/my-product', '/profile/add-product', '#'];
+    const indexTab = 0;
     return (
         <>
             <Header />
             
-            <Head>Profile Seller</Head>
-
-            <div className='flex flex-col justify-between items-center w-[100%] h-[250px] relative'>
+            <Head>
+                <title>Profile - seller</title>
+            </Head>
+            <Banner titleBanner={'Profile'} subtitleBanner={'See your notifications for the latest updates'}/>
+            <div>
+                <div className='flex justify-evenly my-20'>
+                    {menuTab.map((e,i)=>{
+                        return (
+                            <>
+                                <Link href={linkTo[i]}>
+                                    <a>
+                                        <div className={`${i === indexTab ? 'border-b-4' : ''} border-black`}>
+                                            <span className='text-2xl'>{e}</span>
+                                        </div>
+                                    </a>
+                                </Link>
+                            </>
+                        );
+                    })}
+                </div>
+            </div>
+            {/* <div className='flex flex-col justify-between items-center w-[100%] h-[250px] relative'>
                 <Image
                     src='/images/bg.png'
                     layout='fill'
@@ -25,7 +48,7 @@ function Seller() {
                     <p className='absolute '>Profile</p>
                     <p className='absolute '>See your notifications for the latest updates</p>
                 </div>
-            </div>
+            </div> */}
 
             <div>
                 <div className='flex flex-row p-5 mx-[150px] my-10'>

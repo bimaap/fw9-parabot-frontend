@@ -9,6 +9,7 @@ import Header from '../../../components/Header';
 import ModalProduct from '../../../components/ModalProduct';
 import ImgDummy from '../../../public/images/item-example.png';
 import * as Yup from 'yup';
+import Link from 'next/link';
 
 const editProductSchema = Yup.object().shape({
     nameProduct: Yup.string().min(5, 'Name must at least 5 characters'), 
@@ -98,7 +99,7 @@ export const TableProduct = () => {
     return(
         <>
             <section className='mx-20'>
-                <div className='overflow-x-auto shadow-none sm:rounded-lg py-20'>
+                <div className='overflow-x-auto shadow-none sm:rounded-lg pb-20'>
                     <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
                         <thead className='text-xs text-black uppercase bg-white dark:bg-gray-700 dark:text-gray-400 border-t border-b h-16'>
                             <tr>
@@ -170,6 +171,9 @@ export const TableProduct = () => {
 };
 
 function MyProduct() {
+    const menuTab = ['Profile', 'My Product', 'Selling Product', 'My Order'];
+    const linkTo = ['/profile/Seller', '/profile/my-product', '/profile/add-product', '#'];
+    const indexTab = 1;
     return (
         <>
             <Head>
@@ -177,6 +181,23 @@ function MyProduct() {
             </Head>
             <Header />
             <Banner titleBanner='My Product' subtitleBanner='See your notifications for the latest updates' />
+            <div>
+                <div className='flex justify-evenly my-20'>
+                    {menuTab.map((e,i)=>{
+                        return (
+                            <>
+                                <Link href={linkTo[i]}>
+                                    <a>
+                                        <div className={`${i === indexTab ? 'border-b-4' : ''} border-black`}>
+                                            <span className='text-2xl'>{e}</span>
+                                        </div>
+                                    </a>
+                                </Link>
+                            </>
+                        );
+                    })}
+                </div>
+            </div>
             <TableProduct/>
             <Footer />
         </>
