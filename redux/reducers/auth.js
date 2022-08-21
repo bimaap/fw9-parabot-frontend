@@ -15,8 +15,11 @@ export const auth = createSlice({
     initialState,
     reducers:{
         logOut: (state,action)=>{
-            Cookies.remove('token'),
+            Cookies.remove('token');
+            localStorage.removeItem('persist:auth');
             state.token=null;
+            state.id=null;
+            state.role=null;
         },
         resetmsg:(state)=>{
             state.errormsg = null;
