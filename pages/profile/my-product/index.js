@@ -172,7 +172,7 @@ export const TableProduct = () => {
 
 function MyProduct() {
     const menuTab = ['Profile', 'My Product', 'Selling Product', 'My Order'];
-    const linkTo = ['/profile/Seller', '/profile/my-product', '/profile/add-product', '#'];
+    const linkTo = ['/profile/seller', '/profile/my-product', '/profile/add-product', '#'];
     const indexTab = 1;
     return (
         <>
