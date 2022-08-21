@@ -122,7 +122,7 @@ function AddNewProduct() {
     const [imgArr, setImgArr] = React.useState([]);
     
     const menuTab = ['Profile', 'My Product', 'Selling Product', 'My Order'];
-    const linkTo = ['/profile/Seller', '/profile/my-product', '/profile/add-product', '#'];
+    const linkTo = ['/profile/seller', '/profile/my-product', '/profile/add-product', '#'];
     const indexTab = 2;
 
     const onSubmitProduct = (val, e) => {
