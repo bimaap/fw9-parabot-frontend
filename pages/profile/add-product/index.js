@@ -8,6 +8,7 @@ import Header from '../../../components/Header';
 import * as Yup from 'yup';
 import Link from 'next/link';
 import Head from 'next/head';
+import { useSelector } from 'react-redux';
 
 export const convertMoney = (number) => 
     Intl.NumberFormat('id-ID', {
@@ -116,13 +117,14 @@ const ProductForm = ({errors, handleSubmit, handleChange, image}) => {
 
 let arrImg = [];
 function AddNewProduct() {
+    const role = useSelector((state) => state.auth.role)
     const [imgFile, setImgFile] = React.useState();
     
     const [moneyNumber, setMoneyNumber] = React.useState([]);
     const [imgArr, setImgArr] = React.useState([]);
     
     const menuTab = ['Profile', 'My Product', 'Selling Product', 'My Order'];
-    const linkTo = ['/profile/seller', '/profile/my-product', '/profile/add-product', '#'];
+    const linkTo = [`/profile/${role==='Seller'?'Seller':'Customer'}`, '/profile/my-product', '/profile/add-product', '/order'];
     const indexTab = 2;
 
     const onSubmitProduct = (val, e) => {

@@ -5,12 +5,13 @@ import Image from 'next/image';
 import Head from 'next/head';
 import Link from 'next/link';
 import Banner from '../../components/Banner';
-
+import { useSelector } from 'react-redux';
 import {FiEdit3, FiLogOut} from 'react-icons/fi';
 
 function Seller() {
+    const role = useSelector((state) => state.auth.role)
     const menuTab = ['Profile', 'My Product', 'Selling Product', 'My Order'];
-    const linkTo = ['/profile/seller', '/profile/my-product', '/profile/add-product', '#'];
+    const linkTo = [`/profile/${role==='Seller'?'Seller':'Customer'}`, '/profile/my-product', '/profile/add-product', '/order'];
     const indexTab = 0;
     return (
         <>
