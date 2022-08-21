@@ -2,11 +2,22 @@
 import React from 'react';
 import { TbSearch, TbHeart, TbShoppingCart, TbAlignRight, TbChevronDown } from 'react-icons/tb';
 import Link from 'next/link';
+import { useDispatch, useSelector } from 'react-redux';
+import default_image from "../public/images/default.jpg";
+import Image from 'next/image';
+import { logOut } from '../redux/reducers/auth';
+import { useRouter } from "next/router";
 
 export default function Header(){
+    const dispatch = useDispatch()
+    const router = useRouter()
     const [page, setPage] = React.useState({active: false, left: 0, top: 0})
     const [shop, setShop] = React.useState({active: false, left: 0, top: 0})
     const [burger, setBurger] = React.useState({active: false, left: 0, top: 0})
+    const [profile, setProfile] = React.useState({active: false, left: 0, top: 0})
+
+    const token = useSelector((state) => state.auth.token)
+    const role = useSelector((state) => state.auth.role)
 
     const pagePos = (e) => {
         setPage({active: !page.active, left: e.pageX - 60, top: e.pageY + 30})
@@ -19,6 +30,11 @@ export default function Header(){
     const pageBurger = (e) => {
         setBurger({active: !burger.active, left: e.pageX - 60, top: e.pageY + 30})
     }
+
+    const pageProfile = (e) => {
+        setProfile({active: !profile.active, left: e.pageX - 60, top: e.pageY + 30})
+    }
+
     return(
         <header className="bg-slate-100 h-28 flex items-center justify-center px-5">
             <div className="max-w-[1400px] flex-1 flex justify-between items-center">
@@ -54,19 +70,38 @@ export default function Header(){
                     }
                     <Link href={'/#'}><span className='font-semibold cursor-pointer'>BLOG</span></Link>
                 </div>
-                <div className='flex gap-8 text-center justify-center text-gray-700'>
+                <div className='flex gap-8 text-center items-center justify-center text-gray-700'>
                     <Link href={'/#'}><TbSearch className='text-2xl cursor-pointer' /></Link>
                     <Link href={'/#'}><TbHeart className='text-2xl cursor-pointer' /></Link>
                     <Link href={'/#'}><TbShoppingCart className='text-2xl cursor-pointer' /></Link>
-                    <TbAlignRight className='text-2xl cursor-pointer' onClick={(e)=> pageBurger(e)} />
-                    {
-                        burger.active&&
-                        <div style={{top: burger.top, left: burger.left}} className={`absolute rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10`}>
-                            <div className="py-1" role="none">
-                                <Link href={'/login'}><span className="text-gray-700 px-4 py-2 text-sm cursor-pointer flex" role="menuitem" id="menu-item-0">Login</span></Link>
-                                <Link href={'/register'}><span className="text-gray-700 px-4 py-2 text-sm cursor-pointer flex" role="menuitem" id="menu-item-1">Register</span></Link>
+                    {token?
+                        <>
+                            <div className='rounded-full overflow-hidden border-4 border-gray-400 w-[35px] h-[35px]' onClick={(e)=> pageProfile(e)}>
+                                <Image className="rounded-full w-fit h-fit" src={default_image} width={35} height={35} alt='user' />
                             </div>
-                        </div>
+                            {
+                                profile.active&&
+                                <div style={{top: profile.top, left: profile.left}} className={`absolute rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10`}>
+                                    <div className="py-1" role="none">
+                                        <Link href={`/profile/${role==='Seller'?'Seller':'Customer'}`}><span className="text-gray-700 px-4 py-2 text-sm cursor-pointer flex" role="menuitem" id="menu-item-0">Profile</span></Link>
+                                        <span className="text-gray-700 px-4 py-2 text-sm cursor-pointer flex" role="menuitem" id="menu-item-1" onClick={() => {dispatch(logOut());router.push('/');}}>Logout</span>
+                                    </div>
+                                </div>
+                            }
+                        </>
+                        :
+                        <>
+                            <TbAlignRight className='text-2xl cursor-pointer' onClick={(e)=> pageBurger(e)} />
+                            {
+                                burger.active&&
+                                <div style={{top: burger.top, left: burger.left}} className={`absolute rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10`}>
+                                    <div className="py-1" role="none">
+                                        <Link href={'/login'}><span className="text-gray-700 px-4 py-2 text-sm cursor-pointer flex" role="menuitem" id="menu-item-0">Login</span></Link>
+                                        <Link href={'/register'}><span className="text-gray-700 px-4 py-2 text-sm cursor-pointer flex" role="menuitem" id="menu-item-1">Register</span></Link>
+                                    </div>
+                                </div>
+                            }
+                        </>
                     }
                 </div>
             </div>
