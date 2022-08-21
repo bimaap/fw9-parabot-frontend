@@ -10,6 +10,7 @@ import ModalProduct from '../../../components/ModalProduct';
 import ImgDummy from '../../../public/images/item-example.png';
 import * as Yup from 'yup';
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
 
 const editProductSchema = Yup.object().shape({
     nameProduct: Yup.string().min(5, 'Name must at least 5 characters'), 
@@ -171,8 +172,9 @@ export const TableProduct = () => {
 };
 
 function MyProduct() {
+    const role = useSelector((state) => state.auth.role)
     const menuTab = ['Profile', 'My Product', 'Selling Product', 'My Order'];
-    const linkTo = ['/profile/seller', '/profile/my-product', '/profile/add-product', '#'];
+    const linkTo = [`/profile/${role==='Seller'?'Seller':'Customer'}`, '/profile/my-product', '/profile/add-product', '/order'];
     const indexTab = 1;
     return (
         <>
