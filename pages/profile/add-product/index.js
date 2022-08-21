@@ -1,7 +1,7 @@
 import { Formik, useFormik  } from 'formik';
 import Image from 'next/image';
 import React from 'react';
-import { FiPlus, FiTrash2 } from 'react-icons/fi';
+import { FiCheck, FiPlus, FiTrash2 } from 'react-icons/fi';
 import Banner from '../../../components/Banner';
 import Footer from '../../../components/Footer';
 import Header from '../../../components/Header';
@@ -20,9 +20,10 @@ const productSchema = Yup.object().shape({
     descProduct: Yup.string().required('Fields is requied.'),
     priceProduct: Yup.string().required('Fields is requied.'),
     stockProduct: Yup.string().required('Fields is requied.'),
+    brandProduct: Yup.string().required('Fields is requied.'),
 });
 
-const ProductForm = ({errors, handleSubmit, handleChange, image}) => {
+const ProductForm = ({errors, handleSubmit, handleChange, image, colorComponent}) => {
     
     const [moneyNumber, setMoneyNumber] = React.useState();
     return(
@@ -93,6 +94,53 @@ const ProductForm = ({errors, handleSubmit, handleChange, image}) => {
                                 </div>
                             </div>
                         </div>
+                        {colorComponent}
+                        <div className='flex flex-col gap-10'>
+                            <span className='text-black font-semibold text-2xl'>
+                                    Brand
+                            </span>
+                            <input
+                                type='text'
+                                name='brandProduct'
+                                className='shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light'
+                                placeholder='Name brand *'
+                                        
+                            />
+                            {errors.brandProduct ? <span className='text-red-600'>{errors.brandProduct}</span> : null}
+                        </div>
+                        <div className='flex flex-col gap-10'>
+                            <span className='text-black font-semibold text-2xl'>
+                                    Category
+                            </span>
+                            
+                            <select name='categoryId' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
+                                <option selected>Choose One Category</option>
+                                <option value={'bed'}>Bed</option>
+                                <option value={'chair'}>Chair</option>
+                                <option value={'cupboard'}>Cupboard</option>
+                                <option value={'desk'}>Desk</option>
+                                <option value={'diningtable'}>Dining Table</option>
+                                <option value={'furniture'}>Furniture</option>
+                                <option value={'interior'}>Interior</option>
+                                <option value={'kitchen'}>Kitchen</option>
+                                <option value={'lamp'}>Lamp</option>
+                                <option value={'modern'}>Modern</option>
+                            </select>
+                            {errors.categoryId ? <span className='text-red-600'>{errors.categoryId}</span> : null}
+                        </div>
+                        <div className='flex flex-col gap-10'>
+                            <span className='text-black font-semibold text-2xl'>
+                                    SKU
+                            </span>
+                            <input
+                                type='text'
+                                name='skuNumber'
+                                className='shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light'
+                                placeholder='Sku number *'
+                                        
+                            />
+                            {errors.skuNumber ? <span className='text-red-600'>{errors.skuNumber}</span> : null}
+                        </div>
                     </div>
                     <div className='flex flex-col gap-10'>
                         <span className='text-black font-semibold text-2xl'>
@@ -124,9 +172,32 @@ function AddNewProduct() {
     const menuTab = ['Profile', 'My Product', 'Selling Product', 'My Order'];
     const linkTo = ['/profile/seller', '/profile/my-product', '/profile/add-product', '#'];
     const indexTab = 2;
+    const [isChecked, setIsChecked] = React.useState(0);
 
     const onSubmitProduct = (val, e) => {
-        // console.log(val);
+        let colorProduct;
+        switch (isChecked) {
+        case 1:
+            colorProduct='black';
+            break;
+        case 2:
+            colorProduct='brown';
+            break;
+        case 3:
+            colorProduct='white';
+            break;
+        case 4:
+            colorProduct='silver';
+            break;
+        case 5:
+            colorProduct='red';
+            break;
+        default:
+            colorProduct='';
+            break;
+        }
+        const data = {...val, images: arrImg, color: colorProduct};
+        console.log(data);
         // console.log(imgFile);
     };
     const deleteImg = (i)=>{
@@ -164,7 +235,7 @@ function AddNewProduct() {
                 </div>
             </div>
             <section>
-                <Formik onSubmit={onSubmitProduct} validationSchema={productSchema} initialValues={{nameProduct: '', descProduct: '', priceProduct: '', stockProduct: '', newProduct: false, secondProduct: false, imgProduct: null}}>
+                <Formik onSubmit={onSubmitProduct} initialValues={{nameProduct: '', descProduct: '', priceProduct: '', stockProduct: '', newProduct: false, secondProduct: false, imgProduct: null, brandProduct: '', categoryId: '', skuNumber: ''}}>
                     {(props)=><ProductForm {...props} image={
                         <div className='flex gap-3'>
                             {imgArr.map((e,i)=>{
@@ -217,7 +288,33 @@ function AddNewProduct() {
                                 {arrImg.length > 2 ? <span className='text-red-700'>Maximum uploud images</span> : null}
                             </div>
                         </div>
-                    } />}
+                    } 
+                    colorComponent={
+                        <>
+                            <div>
+                                <span className='text-2xl font-semibold'>Colors</span>
+                                
+                                <div className='flex gap-3 mt-7'>
+                                    <div onClick={()=>setIsChecked(1)} className={`bg-black rounded-full border cursor-pointer ${isChecked != 1 ? 'p-[1.1rem]' : 'p-[0.8rem]'}`}>
+                                        {isChecked == 1? <FiCheck size={10} className='text-white'/> : null}
+                                    </div>
+                                    <div onClick={()=>setIsChecked(2)} className={`bg-orange-700 border border-orange-700 rounded-full cursor-pointer ${isChecked != 2 ? 'p-[1.1rem]' : 'p-[0.8rem]'}`}>
+                                        {isChecked == 2? <FiCheck size={10} className='text-white'/> : null}
+                                    </div>
+                                    <div onClick={()=>setIsChecked(3)} className={`bg-white border rounded-full cursor-pointer ${isChecked != 3 ? 'p-[1.1rem]' : 'p-[0.8rem]'}`}>
+                                        {isChecked == 3? <FiCheck size={10} className='text-black'/> : null}
+                                    </div>
+                                    <div onClick={()=>setIsChecked(4)} className={`bg-gray-400 border rounded-full cursor-pointer ${isChecked != 4 ? 'p-[1.1rem]' : 'p-[0.8rem]'}`}>
+                                        {isChecked == 4? <FiCheck size={10} className='text-black'/> : null}
+                                    </div>
+                                    <div onClick={()=>setIsChecked(5)} className={`bg-red-600 rounded-full cursor-pointer ${isChecked != 5 ? 'p-[1.1rem]' : 'p-[0.8rem]'}`}>
+                                        {isChecked == 5? <FiCheck size={10} className='text-white'/> : null}
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+                    } 
+                    />}
                 </Formik>
             </section>
             <Footer />
