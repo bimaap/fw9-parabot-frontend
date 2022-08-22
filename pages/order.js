@@ -33,7 +33,7 @@ export default function Order(){
     ];
     const role = useSelector((state) => state.auth.role);
     const menuTab = ['Profile', 'My Product', 'Selling Product', 'My Order'];
-    const linkTo = [`/profile/${role==='seller'?'seller':'customer'}`, '/profile/my-product?page=1&limit=5', '/profile/add-product', '/order'];
+    const linkTo = [`/profile/${role==='seller'?'seller':'customer'}`, '/profile/my-product/all?page=1&limit=5', '/profile/add-product', '/order'];
     const indexTab = 3;
     const [order, setOrder] = React.useState({active: false, left: 0, top: 0});
     const [product, setProduct] = React.useState({active: false, left: 0, top: 0});
@@ -97,13 +97,13 @@ export default function Order(){
                                     product.active&&
                                     <div style={{top: product.top, left: product.left}} className={'absolute w-40 p-3 rounded-md shadow-lg bg-black ring-1 ring-black ring-opacity-5 focus:outline-none'}>
                                         <div className='py-1' role='none'>
-                                            <Link href='#all'>
+                                            <Link href='/profile/my-product/all?page=1&limit=5'>
                                                 <a className='text-white block px-4 py-2 text-sm' role='menuitem' id='menu-item-1'>All</a>
                                             </Link>
-                                            <Link href='#archive'>
+                                            <Link href='/profile/my-product/archive?page=1&limit=5'>
                                                 <a className='text-white block px-4 py-2 text-sm' role='menuitem' id='menu-item-1'>Archive</a>
                                             </Link>
-                                            <Link href='#soldout'>
+                                            <Link href='/profile/my-product/sold-out?page=1&limit=5'>
                                                 <a className='text-white block px-4 py-2 text-sm' role='menuitem' id='menu-item-1'>Sold Out</a>
                                             </Link>
                                         </div>

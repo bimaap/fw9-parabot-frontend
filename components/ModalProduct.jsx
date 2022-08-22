@@ -4,7 +4,7 @@ import { FiX } from 'react-icons/fi';
 function ModalProduct({title, content, onHide}) {
     return (
         <><div
-            className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'
+            className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none pt-60'
         >
             <div className='relative w-1/2 my-6 mx-auto max-w-3xl'>
                 {/*content*/}
@@ -12,7 +12,7 @@ function ModalProduct({title, content, onHide}) {
                     {/*header*/}
                     <div className='flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t'>
                         <h3 className='text-3xl font-semibold'>
-                          Modal Title
+                            {title}
                         </h3>
                         <button
                             className='p-1 ml-auto bg-transparent border-0 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'

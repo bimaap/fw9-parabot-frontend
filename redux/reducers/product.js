@@ -5,7 +5,8 @@ const initialState = {
     resultCategories: {},
     errorMsg: null,
     successMsg: null,
-    resultProduct: {}
+    resultProduct: {},
+    resultProductDetail: {}
 };
 
 export const product = createSlice({
@@ -45,7 +46,7 @@ export const product = createSlice({
             state.successMsg = null;
         }),
         build.addCase(getProductDetail.fulfilled, (state, action) => {
-            state.resultProduct = action.payload.result;
+            state.resultProductDetail = action.payload.result;
             state.successMsg = action.payload.message;
             state.errorMsg = action.payload.errorMsg;
         }),
