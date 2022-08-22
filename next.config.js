@@ -5,6 +5,11 @@ const nextConfig = {
     env:{
         BACK_END_URL:'http://localhost:3335'
     },
+
+    images: {
+        domains: ['res.cloudinary.com']
+    },
+
     async rewrites() {
         return [
             {
@@ -21,11 +26,6 @@ const nextConfig = {
             }
         ];
     },
-    images: {
-        domains:[
-            'res.cloudinary.com'
-        ]
-    }
 };
 
 
