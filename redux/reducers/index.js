@@ -1,6 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
-import getCheckouts from './getCheckouts';
+import checkout from './checkout';
 import chats from './chats';
 import auth from './auth';
 import storage from 'redux-persist/lib/storage';
@@ -19,7 +19,7 @@ const reducer = combineReducers({
     auth:persistedAuthReducer,
     chats,
     notification,
-    getCheckouts,
+    checkout,
     product
 });
 

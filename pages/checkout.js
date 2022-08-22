@@ -6,29 +6,13 @@ import Menu from "../components/Menu";
 import { SiVisa } from "react-icons/si";
 import { Formik, Field } from "formik";
 import * as Yup from "yup"
+import { postCheckoutAuth } from "../redux/asyncAction/checkout";
+import { useSelector, useDispatch } from "react-redux";
 
-let arrImage = []
-const onChangeImage = (props) =>{
-    arrImage.push(props)
-    console.log(arrImage);
-}
+export default function Checkout(){
+    const dispatch = useDispatch()
+    const token = useSelector((state) => state.auth.token);
 
-const GetImage = () => {
-    return(
-        <>
-            <Formik
-                initialValues={{image: ''}}>
-                {(props)=>
-                    <div>
-                        <input type={'file'} onChange={((e)=> onChangeImage(e.target.files[0]))} />
-                    </div>
-                }
-            </Formik>
-        </>
-    )
-}
-
-export default function Order(){
     const checkoutSchema = Yup.object().shape({
         name: Yup.string().required('Required'),
         address: Yup.string().required('Required'),
@@ -40,7 +24,7 @@ export default function Order(){
     const onCheckout = (props) => {
         const error = Object.keys(props.errors).length
         if(!error){
-            console.log('aman')
+            dispatch(postCheckoutAuth([token, props.values]))
         }else{
             console.log('masih error');
         }
@@ -104,8 +88,6 @@ export default function Order(){
                                 <div>
                                     <button className="bg-gray-800 w-[120px] h-[40px] text-white" onClick={() => onCheckout(props)}>Check Out</button>
                                 </div>
-                                
-                                {/* <GetImage /> */}
                             </div>
                         </div>
                     }
