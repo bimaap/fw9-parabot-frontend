@@ -5,6 +5,7 @@ const initialState = {
     wrapper:'',
     conversation:'',
     selected:'',
+    recepient:'',
     errormsg:'',
     succesmsg:''
 };
@@ -19,6 +20,9 @@ export const chats = createSlice({
         },
         costumeSelected:(state,action)=>{
             state.selected=action.payload;
+        },
+        costumeRecepient:(state,action)=>{
+            state.recepient=action.payload;
         }
     },
     extraReducers:(build)=>{
@@ -40,5 +44,5 @@ export const chats = createSlice({
 });
 
 export {getAllChat,getChatting,sending,createChat};
-export const {resetmsg,costumeSelected} = chats.actions;
+export const {resetmsg,costumeSelected,costumeRecepient} = chats.actions;
 export default chats.reducer;
