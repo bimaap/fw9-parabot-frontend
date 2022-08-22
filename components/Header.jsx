@@ -81,7 +81,7 @@ export default function Header(){
                             </div>
                         </div>
                     } */}
-                    <Link href={'/#'}><span className='font-semibold cursor-pointer'>BLOG</span></Link>
+                    <Link href={'/blog'}><span className='font-semibold cursor-pointer'>BLOG</span></Link>
                 </div>
                 <div className='flex gap-8 text-center justify-center text-gray-700'>
                     <div onClick={()=>{setShowDropdown(!showDropdown);}}><TbSearch className='text-2xl cursor-pointer' /></div>
