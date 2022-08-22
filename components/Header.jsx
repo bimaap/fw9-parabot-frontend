@@ -9,6 +9,7 @@ import { logOut } from '../redux/reducers/auth';
 import { useRouter } from 'next/router';
 import { Formik } from 'formik';
 import Router from 'next/router';
+import { allCategory, getProductUser } from '../redux/asyncAction/product';
 
 export default function Header(){
     const dispatch = useDispatch();
@@ -16,6 +17,7 @@ export default function Header(){
     const [page, setPage] = React.useState({active: false, left: 0, top: 0});
     const [shop, setShop] = React.useState({active: false, left: 0, top: 0});
     const [burger, setBurger] = React.useState({active: false, left: 0, top: 0});
+    const [profile, setProfile] = React.useState({active: false, left: 0, top: 0});
     const token = useSelector((state) => state.auth.token);
     const role = useSelector((state) => state.auth.role);
 
@@ -38,6 +40,12 @@ export default function Header(){
     const goSearch=(props)=>{
         Router.push(`/product/products?search=${props.values.search}`);
     };
+
+    React.useEffect(()=>{
+        dispatch(allCategory());
+        dispatch(getProductUser());
+    }, [dispatch]);
+
     return(
         <header className='bg-slate-100 h-28 flex items-center justify-center px-5'>
             <div className='max-w-[1400px] flex-1 flex justify-between items-center'>

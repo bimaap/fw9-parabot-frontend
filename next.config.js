@@ -12,17 +12,20 @@ const nextConfig = {
 
     async rewrites() {
         return [
-          {
-            destination: '/profile/Seller',
-            source: '/profile/seller'
-          },
-          {
-            destination: '/profile/Customer',
-            source: '/profile/customer'
-          }
-        ]
-      },
-
+            {
+                destination: '/profile/seller',
+                source: '/profile/seller'
+            },
+            {
+                destination: '/profile/customer',
+                source: '/profile/customer'
+            },
+            {
+                destination: '/profile/add-product',
+                source: '/profile/add-product'
+            }
+        ];
+    },
 };
 
 
