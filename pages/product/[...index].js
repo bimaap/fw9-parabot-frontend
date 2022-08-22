@@ -7,9 +7,39 @@ import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import Image from 'next/image';
 import ImgDummy from '../../public/images/item-example.png';
 import CardProduct from '../../components/CardProduct';
+import cookies from 'next-cookie';
+import axiosServer from '../../helpers/httpServer';
 
-function Product() {
-    const itemsCol = [1,2,3,4,5,6,7,8,9,10,11,12];
+export async function getServerSideProps(context){
+    try{
+        const search = !context.query?.search?'':context.query.search;
+        const page = !context.query?.page? 1 :context.query.page;
+        const sortBy = !context.query?.sortBy? 'created_at': context.query.page;
+        const sort = !context.query?.sort? 'asc': 'desc';
+        const product = await axiosServer.get(
+            `/products?search=${search}&sortBy=${sortBy}&sort=${sort}&page=${page}`
+        );
+        console.log(product);
+        return{
+            props:{
+                dataProduct:product.data.result,
+                dataPage:product.data.pageInfo
+            }
+        };
+    }
+    catch(err){
+        console.log(err);
+        return {
+            props:{
+                isError:true
+            }
+        };
+    }
+};
+
+function Product(props) {
+    const itemsCol = props.dataProduct;
+    console.log(props.dataProduct);
     const [showDropdown, setShowDropdown] = React.useState(false);
     const [isActive, setIsActive] = React.useState(0);
     const buttonPaginate = ['01', '02', '03', '04', '05'];
@@ -36,10 +66,10 @@ function Product() {
                         </div>
                     </div>
                     <div className='grid grid-cols-3 gap-4'>
-                        {itemsCol.map((e,i)=>{
+                        {itemsCol?.map((e,i)=>{
                             return(
                                 <>
-                                    <CardProduct productUrl={`/product/${i}/details`} img={<Image src={ImgDummy} alt='img-dummy'/>} title='Coaster 506222-CO Loveseat' subtitle='$765.99' />
+                                    <CardProduct productUrl={`/product/${i}/details`} img={<Image src={e.product_images} width={100} height={100} alt='img-product'/>} title={e.product_name} subtitle={e.price} />
                                 </>
                             );
                         })}
