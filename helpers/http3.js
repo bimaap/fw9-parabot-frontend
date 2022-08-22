@@ -1,14 +1,14 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-export default http3 = () => {
+export const http3 = () => {
     const headers = {};
     const token = Cookies.get('token');
     if(token) {
-        headers.autorization = `Bearer ${token}`;
+        headers.authorization = `Bearer ${token}`;
     }
     return axios.create({
         headers,
-        baseURL: proccess.env.BACK_END_URL
+        baseURL: process.env.BACK_END_URL
     });
 };

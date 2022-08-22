@@ -10,15 +10,15 @@ import {FiEdit3, FiLogOut} from 'react-icons/fi';
 import { useSelector } from 'react-redux';
 
 function Customer() {
-    const role = useSelector((state) => state.auth.role)
+    const role = useSelector((state) => state.auth.role);
     const menuTab = ['Profile', 'My Product', 'Selling Product', 'My Order'];
-    const linkTo = [`/profile/${role==='Seller'?'Seller':'Customer'}`, '/profile/my-product', '/profile/add-product', '/order'];
+    const linkTo = [`/profile/${role==='seller'?'seller':'customer'}`, '/profile/my-product', '/profile/add-product', '/order'];
     const indexTab = 0;
     return (
         <>
             <Header />
             <Head>
-                <title>Profile - seller</title>
+                <title>Profile - Customer</title>
             </Head>
             <Banner titleBanner={'Profile'} subtitleBanner={'See your notifications for the latest updates'}/>
             <div>
