@@ -40,6 +40,13 @@ export const chats = createSlice({
         build.addCase(getChatting.fulfilled,(state,action)=>{
             state.conversation=action.payload?.chat;
         });
+        build.addCase(createChat.pending,(state)=>{
+            state.succesmsg=null;
+            state.errormsg=null;
+        });
+        build.addCase(createChat.fulfilled,(state,action)=>{
+            state.succesmsg=action.payload?.msg;
+        });
     }
 });
 
