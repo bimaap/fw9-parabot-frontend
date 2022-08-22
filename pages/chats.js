@@ -56,8 +56,8 @@ const WrapperDynamic = ({image,name,id,recepient,sender}) => {
                     <Image src={image?image:defaultimg} width={60} height={60} alt='profile'/>
                 </div>
                 <div className=' ml-5' onClick>
-                    <p className='chats-title text-[#1A1A1A]'>{name}</p>
-                    <p className='chats-text text-[#4D4D4D]'>isi chat terakhir</p>
+                    <p className='text-[24px] font-bold text-[#1A1A1A]'>{name}</p>
+                    <p className='text-[16px] text-[#4D4D4D]'>isi chat terakhir</p>
                 </div>
             </div>
         </>
@@ -105,8 +105,8 @@ const Chats = () => {
                                     <Image src='/vercel.svg' width={60} height={60}  alt='profile'/>
                                 </div>
                                 <div className=' ml-5'>
-                                    <p className='chats-title text-[#FFFFFF]'>Aisyah 12</p>
-                                    <p className='chats-text text-[#FFFFFF]' >online</p>
+                                    <p className='text-[24px] font-bold text-[#FFFFFF]'>Aisyah 12</p>
+                                    <p className='text-[16px] text-[#FFFFFF]' >online</p>
                                 </div>
                             </div>
                             <div className='flex flex-col justify-between min-h-[630px]'>
