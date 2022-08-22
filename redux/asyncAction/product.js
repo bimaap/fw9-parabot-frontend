@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import qs from 'qs';
 import { http3 } from '../../helpers/http3';
 
 export const allCategory = createAsyncThunk('category/all', async () => {
@@ -45,6 +46,42 @@ export const getProductUser = createAsyncThunk('product/my-product', async () =>
     try {
         const {data} = await http3().get('/myProducts?page=1&limit=5');
         return data;
+    } catch (error) {
+        result.errorMsg = error.response.data.message;
+        return result;
+    }
+});
+
+export const getProductDetail = createAsyncThunk('product/details', async(id) => {
+    const result = {};
+    try {
+        const {data} = await http3().get('/products/'+id);
+        return data;
+    } catch (error) {
+        result.errorMsg = error.response.data.message;
+        return result;
+    }
+});
+
+export const updateProduct = createAsyncThunk('product/update', async(request) => {
+    const result = {};
+    try {
+        const dataReq = {product_name: request.nameProduct, price: request.price, stock: request.stock, is_archive: request.is_archive, discount: request.discount};
+        const send = qs.stringify(dataReq);
+        const {data} = await http3().patch('/products/'+request.idProduct, send);
+        return data;
+    } catch (error) {
+        result.errorMsg = error.response.data.message;
+        return result;
+    }
+});
+
+export const deleteProduct = createAsyncThunk('product/delated', async (id) => {
+    const result = {};
+    try {
+        const {data} = await http3().delete('/products/'+id);
+        result.successMsg = data.message;
+        return result;
     } catch (error) {
         result.errorMsg = error.response.data.message;
         return result;

@@ -1,7 +1,7 @@
 import { Formik } from 'formik';
 import Head from 'next/head';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import { FiCheckCircle } from 'react-icons/fi';
 import Banner from '../../../components/Banner';
 import Footer from '../../../components/Footer';
@@ -14,7 +14,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TbChevronDown } from 'react-icons/tb';
 import { getProductUser } from '../../../redux/asyncAction/product';
 import { useRouter } from 'next/router';
-import {BsShop} from 'react-icons/bs';
+import {BsArchive, BsPencil, BsShop, BsTrash} from 'react-icons/bs';
+import { convertMoney } from '../add-product';
 
 const editProductSchema = Yup.object().shape({
     nameProduct: Yup.string().min(5, 'Name must at least 5 characters'), 
@@ -27,6 +28,7 @@ const EditModalForm = ({errors, handleChange, handleSubmit}) => {
     const [nameField, setNameField] = React.useState('');
     const [stockField, setStockField] = React.useState('');
     const [priceField, setPriceField] = React.useState('');
+    // const product = useState((state)=>)
 
     return (
         <>
@@ -102,90 +104,111 @@ export const TableProduct = () => {
     const router = useRouter();
     const products = useSelector((state)=> state.product.resultProduct);
     const [idProduct, setIdProduct] = React.useState();
-   
+    const [loading, setLoading] = React.useState(false);
     const [showModal, setShowModal] = React.useState(false);
     const submitEditModal = (val) => {
         console.log(val);
         console.log(idProduct);
     };
-    console.log(router.query);
     React.useEffect(()=>{
         dispatch(getProductUser());
+        setLoading(true);
+        setTimeout(()=>{
+            setLoading(false);
+        }, 1000);
     }, [dispatch]);
     
     
     return(
         <>
-            <section className='mx-20'>
-                <div className='overflow-x-auto shadow-none sm:rounded-lg pb-20'>
-                    <table className='w-full text-xs sm:text-sm text-left text-gray-500 dark:text-gray-400'>
-                        <thead className='text-xs text-black uppercase bg-white dark:bg-gray-700 dark:text-gray-400 border-t border-b h-16'>
-                            <tr className='bg-white dark:bg-gray-800 dark:border-gray-700 px-5'>
-                                <th>Product</th>
-                                <th>Stock Status</th>
-                                <th>Price</th>
-                                <th>
-                                    <span className='sr-only'>Delete</span>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className='text-black'>
-                            {products && products?.map(e=>{
-                                return(
-                                    <>
-                                        <tr className='bg-white dark:bg-gray-800 dark:border-gray-700'>
-                                            <td className='w-1/3 pt-8'>
-                                                <div className='flex flex-col md:flex-row items-center gap-10'>
-                                                    {e.product_images == '' ? <BsShop size={130}/> :  <Image src={e.product_images.split(',')[0]} alt='img-dummy' width={130} height={150} layout='fixed' objectFit='cover'/>}
-                                                    <span>{e.product_name}</span>
-                                                </div>
-                                            </td>
-                                            <td className='w-1/6 pt-8'>
-                                                <div className='flex items-center gap-3'>
-                                                    <FiCheckCircle/>
-                                                    <span>10 Stock</span>
-                                                </div>
-                                            </td>
-                                            <td className='w-1/6  pt-8'>$765.99</td>
-                                            <td className='w-1/6  pt-8'>
-                                                <div className='flex gap-4'>
-                                                    <button
-                                                        type='button'
-                                                        onClick={() => {setShowModal(true); setIdProduct(e.id);}}
-                                                        className='border border-yellow-500 bg-yellow-500 text-white rounded-md px-7 py-2 my-2 transition duration-500 ease select-none hover:bg-yellow-400 focus:outline-none focus:shadow-outline'
-                                                    >
-                                                        Edit
-                                                    </button>
-                                                    <button
-                                                        type='button'
-                                                        className='border border-red-500 bg-red-500 text-white rounded-md px-7 py-2 my-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline'
-                                                    >
-                                                        Delete
-                                                    </button>
-                                                </div>
-                                                {/* <a href='#' className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>Edit</a> */}
-                                            </td>   
-                                        </tr>
-                                    </>
-                                );
-                            })} 
-                        </tbody>
-                    </table>
-                    {showModal ? (
-                        <>
-                            <ModalProduct title={'Edit my product'} onHide={()=>setShowModal(false)} content={
-                                (
-                                    <>
-                                        <Formik onSubmit={submitEditModal} initialValues={{nameProduct: '', stockProduct: '', priceProduct: ''}} validationSchema={editProductSchema}>
-                                            {(props)=> <EditModalForm {...props} />}
-                                        </Formik>
-                                    </>
-                                )
-                            }/>
-                        </>
-                    ): null}
-                </div>
-            </section>
+            {loading == true ? 
+                <div className='text-center min-h-screen flex justify-center items-center'>
+                    <div role='status '>
+                        <svg className='inline mr-2 w-20 h-20 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600' viewBox='0 0 100 101' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                            <path d='M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z' fill='currentColor'/>
+                            <path d='M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z' fill='currentFill'/>
+                        </svg>
+                        <span className='sr-only'>Loading...</span>
+                    </div>
+                </div> : 
+                            
+                <section className='mx-20'>
+                    <div className='overflow-x-auto shadow-none sm:rounded-lg pb-20'>
+                        <table className='w-full text-xs sm:text-sm text-left text-gray-500 dark:text-gray-400'>
+                            <thead className='text-xs text-black uppercase bg-white dark:bg-gray-700 dark:text-gray-400 border-t border-b h-16'>
+                                <tr className='bg-white dark:bg-gray-800 dark:border-gray-700 px-5'>
+                                    <th>Product</th>
+                                    <th>Stock Status</th>
+                                    <th>Price</th>
+                                    <th>
+                                        <span className='sr-only'>Delete</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody className='text-black'>
+                                {Object.keys(products).length ? products.map(e=>{
+                                    return(
+                                        <>
+                                            <tr className='bg-white dark:bg-gray-800 dark:border-gray-700'>
+                                                <td className='w-1/3 pt-8'>
+                                                    <div className='flex flex-col md:flex-row items-center gap-10'>
+                                                        {e.product_images == '' ? <BsShop size={130}/> :  <Image src={e.product_images.split(',')[0]} alt='img-dummy' width={130} height={150} layout='fixed' objectFit='cover'/>}
+                                                        <span>{e.product_name}</span>
+                                                    </div>
+                                                </td>
+                                                <td className='w-1/6 pt-8'>
+                                                    <div className='flex items-center gap-3'>
+                                                        <FiCheckCircle/>
+                                                        <span>{e.stock} Stock</span>
+                                                    </div>
+                                                </td>
+                                                <td className='w-1/6  pt-8'>{convertMoney(e.price)}</td>
+                                                <td className='w-1/6  pt-8'>
+                                                    <div className='flex gap-4'>
+                                                        <button
+                                                            type='button'
+                                                            onClick={() => {setShowModal(true); setIdProduct(e.id);}}
+                                                            className='border border-yellow-500 bg-yellow-500 text-white rounded-md px-2 py-2 my-2 transition duration-500 ease select-none hover:bg-yellow-400 focus:outline-none focus:shadow-outline'
+                                                        >
+                                                            <BsPencil/>
+                                                        </button>
+                                                        <button
+                                                            type='button'
+                                                            className='border border-red-500 bg-red-500 text-white rounded-md px-2 py-2 my-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline'
+                                                        >
+                                                            <BsTrash/>
+                                                        </button>
+                                                        <button
+                                                            type='button'
+                                                            className='border border-black-500 bg-black-500 text-white rounded-md px-2 py-2 my-2 transition duration-500 ease select-none hover:bg-black-600 focus:outline-none focus:shadow-outline'
+                                                        >
+                                                            <BsArchive/>
+                                                        </button>
+                                                    </div>
+                                                    {/* <a href='#' className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>Edit</a> */}
+                                                </td>   
+                                            </tr>
+                                        </>
+                                    );
+                                }):null} 
+                            </tbody>
+                        </table>
+                        {showModal ? (
+                            <>
+                                <ModalProduct title={'Edit my product'} onHide={()=>setShowModal(false)} content={
+                                    (
+                                        <>
+                                            <Formik onSubmit={submitEditModal} initialValues={{nameProduct: '', stockProduct: '', priceProduct: ''}} validationSchema={editProductSchema}>
+                                                {(props)=> <EditModalForm {...props} />}
+                                            </Formik>
+                                        </>
+                                    )
+                                }/>
+                            </>
+                        ): null}
+                    </div>
+                </section>
+            }
         </>
     );
 };
