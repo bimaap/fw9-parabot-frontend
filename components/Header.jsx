@@ -18,6 +18,7 @@ export default function Header(){
     const [shop, setShop] = React.useState({active: false, left: 0, top: 0});
     const [burger, setBurger] = React.useState({active: false, left: 0, top: 0});
     const [profile, setProfile] = React.useState({active: false, left: 0, top: 0});
+    const [showDropdown, setShowDropdown] = React.useState(false);
     const token = useSelector((state) => state.auth.token);
     const role = useSelector((state) => state.auth.role);
 
@@ -51,7 +52,7 @@ export default function Header(){
             <div className='max-w-[1400px] flex-1 flex justify-between items-center'>
                 <Link href={'/'}><span className='text-3xl font-medium cursor-pointer'>ParaBot</span></Link>
                 <div className='flex gap-10 text-gray-700'>
-                    <Link href={'/#'}><span className='font-semibold cursor-pointer'>HOME</span></Link>
+                    <Link href={'/'}><span className='font-semibold cursor-pointer'>HOME</span></Link>
                     <div className='flex items-center gap-1 cursor-pointer' id='page' onClick={(e)=> pagePos(e)}>
                         <span className='font-semibold'>PAGES</span>
 
@@ -99,6 +100,8 @@ export default function Header(){
                             {
                                 profile.active&&
                                 <div style={{top: profile.top, left: profile.left}} className={'absolute rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10'}>
+                                    <Link href={'/notification'}><span className='text-gray-700 px-4 py-2 text-sm cursor-pointer flex' >Notification</span></Link>
+                                    <Link href={'chats'}><span className='text-gray-700 px-4 py-2 text-sm cursor-pointer flex' >Chats</span></Link>
                                     <div className='py-1' role='none'>
                                         <Link href={`/profile/${role==='Seller'?'Seller':'Customer'}`}><span className='text-gray-700 px-4 py-2 text-sm cursor-pointer flex' role='menuitem' id='menu-item-0'>Profile</span></Link>
                                         <span className='text-gray-700 px-4 py-2 text-sm cursor-pointer flex' role='menuitem' id='menu-item-1' onClick={() => {dispatch(logOut());router.push('/');}}>Logout</span>
