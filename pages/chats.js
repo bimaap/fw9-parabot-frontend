@@ -66,6 +66,7 @@ const Chats = () => {
     const dispatch = useDispatch();
     const wrapper = useSelector((state=>state.chats.wrapper));
     const conversation = useSelector((state=>state.chats.conversation));
+    const token = useSelector((state=>state.auth.token));
     const sendChat = (val) =>{
         dispatch(sending({token,text:val.chats}));
     };
@@ -111,7 +112,7 @@ const Chats = () => {
                             </div>
                             <div className='flex flex-col justify-between min-h-[630px]'>
                                 <div className=''>
-                                    {conversation?.map((val)=>{
+                                    {conversation&&conversation.map((val)=>{
                                         return(
                                             <>
                                                 <ChatDynamic/>
