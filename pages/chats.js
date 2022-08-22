@@ -6,8 +6,8 @@ import Banner from '../components/Banner';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import { useDispatch,useSelector } from 'react-redux';
-import { getAllChat, sending } from '../redux/asyncAction/chats';
-import { costumeSelected } from '../redux/reducers/chats';
+import { getAllChat, getChatting, sending } from '../redux/asyncAction/chats';
+import { costumeRecepient, costumeSelected } from '../redux/reducers/chats';
 
 const schemaChat = Yup.object().shape({
     chats: Yup.string().min(1).required()
@@ -29,32 +29,37 @@ const FormChats = ({errors,handleChange,handleSubmit}) =>{
     );
 };
 
-const ChatDynamic = () =>{
+const ChatDynamic = ({content,sender}) =>{
+    const id = useSelector((state=>state.auth.id));
     return(
         <>
-            <div className=' bg-[#bfbfbf] w-100 ml-6 mr-14 mt-3 min-h-[50px] flex items-center'>
-                <p className='m-3'>ini Orang lain</p>
-            </div>
-            <div className=' bg-[#a3a2a2] mr-6 ml-14 mt-3 min-h-[50px] flex items-center'>
-                <p className='m-3'>Ini User Login</p>
-            </div>
+            {id==sender?
+                <div className=' bg-[#bfbfbf] w-100 ml-6 mr-14 mt-3 min-h-[50px] flex items-center'>
+                    <p className='m-3'>{content}</p>
+                </div>:
+                <div className=' bg-[#a3a2a2] mr-6 ml-14 mt-3 min-h-[50px] flex items-center'>
+                    <p className='m-3'>{content}</p>
+                </div>
+            }
         </>
     );
 };
 
-const WrapperDynamic = () => {
+const WrapperDynamic = ({name,id,recepient}) => {
     const dispatch = useDispatch();
     const select = () =>{
         dispatch(costumeSelected(id));
+        dispatch(costumeRecepient(recepient));
+        dispatch(getChatting({id}));
     };
     return(
         <>
-            <div className='p-11 flex items-center'>
+            <div onClick={()=>select()} className='p-11 flex items-center'>
                 <div className=''>
                     <Image src='/vercel.svg' width={60} height={60} alt='profile'/>
                 </div>
                 <div className=' ml-5' onClick>
-                    <p className='chats-title text-[#1A1A1A]'>Syifa Guys</p>
+                    <p className='chats-title text-[#1A1A1A]'>{name}</p>
                     <p className='chats-text text-[#4D4D4D]'>isi chat terakhir</p>
                 </div>
             </div>
@@ -66,13 +71,15 @@ const Chats = () => {
     const dispatch = useDispatch();
     const wrapper = useSelector((state=>state.chats.wrapper));
     const conversation = useSelector((state=>state.chats.conversation));
-    const token = useSelector((state=>state.auth.token));
+    const chat_id = useSelector((state=>state.chats.selected));
+    const sender_id = useSelector((state=>state.auth.id));
+    const recepient_id =useSelector((state=>state.chats.recepient));
     const sendChat = (val) =>{
-        dispatch(sending({token,text:val.chats}));
+        dispatch(sending({chat_id,text:val.chats,recepient_id,sender_id}));
     };
     React.useEffect(()=>{
-        dispatch(getAllChat({token}));
-    },[]);
+        dispatch(getAllChat());
+    },[chat_id]);
     return (
         <>
             <Header/>
@@ -91,10 +98,11 @@ const Chats = () => {
                                     <p className='chats-text text-[#FFFFFF]'>online</p>
                                 </div>
                             </div>
-                            {wrapper?.map((val)=>{
+                            {wrapper&&wrapper.map((val)=>{
+                                console.log(val);
                                 return(
                                     <>
-                                        <WrapperDynamic />;
+                                        <WrapperDynamic name={val.full_name} id={val.id} recepient={val.recepient_id}/>;
                                     </>
                                 );
                             })}
@@ -115,7 +123,7 @@ const Chats = () => {
                                     {conversation&&conversation.map((val)=>{
                                         return(
                                             <>
-                                                <ChatDynamic/>
+                                                <ChatDynamic content={val.content} sender={val.sender_id}/>
                                             </>
                                         );
                                     })}
