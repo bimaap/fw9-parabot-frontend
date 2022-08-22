@@ -2,13 +2,16 @@ import { Formik, useFormik  } from 'formik';
 import Image from 'next/image';
 import React from 'react';
 import { FiCheck, FiPlus, FiTrash2 } from 'react-icons/fi';
-import Banner from '../../../components/Banner';
-import Footer from '../../../components/Footer';
-import Header from '../../../components/Header';
+import Banner from '../../components/Banner';
+import Footer from '../../components/Footer';
+import Header from '../../components/Header';
 import * as Yup from 'yup';
 import Link from 'next/link';
 import Head from 'next/head';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { allCategory, createProduct } from '../../redux/asyncAction/product';
+import { useRouter } from 'next/router';
+import { TbChevronDown } from 'react-icons/tb';
 
 export const convertMoney = (number) => 
     Intl.NumberFormat('id-ID', {
@@ -25,8 +28,11 @@ const productSchema = Yup.object().shape({
 });
 
 const ProductForm = ({errors, handleSubmit, handleChange, image, colorComponent}) => {
-    
+    const dispatch = useDispatch();
     const [moneyNumber, setMoneyNumber] = React.useState();
+    const categories = useSelector((state)=> state.product.resultCategories);
+    const [newCondition, setNewCondition] = React.useState(false);
+    const [secondCondition, setSecondCondition] = React.useState(false);
     return(
         <>
             <form onSubmit={handleSubmit} onChange={handleChange} className='flex justify-center pb-24'>
@@ -83,12 +89,12 @@ const ProductForm = ({errors, handleSubmit, handleChange, image, colorComponent}
                         <div className='flex flex-col gap-10'>
                             <span className='text-xs'>Stock Condition</span>
                             <div className='flex gap-20'>
-                                <div className='flex gap-2'>
-                                    <input type='checkbox' name='newProduct' />
+                                <div className='flex gap-2' onClick={()=>setNewCondition(!newCondition)}>
+                                    <input type='checkbox' name='newProduct' disabled={secondCondition==true? true : false}/>
                                     <span className='text-xs'>New Product</span>
                                 </div>
-                                <div className='flex gap-2'>
-                                    <input type='checkbox' name='secondProduct'/>
+                                <div className='flex gap-2' onClick={()=>setSecondCondition(!secondCondition)}>
+                                    <input type='checkbox' name='secondProduct' disabled={newCondition==true? true : false}/>
                                     <span className='text-xs'>
                                             Second Product
                                     </span>
@@ -116,16 +122,13 @@ const ProductForm = ({errors, handleSubmit, handleChange, image, colorComponent}
                             
                             <select name='categoryId' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
                                 <option selected>Choose One Category</option>
-                                <option value={'bed'}>Bed</option>
-                                <option value={'chair'}>Chair</option>
-                                <option value={'cupboard'}>Cupboard</option>
-                                <option value={'desk'}>Desk</option>
-                                <option value={'diningtable'}>Dining Table</option>
-                                <option value={'furniture'}>Furniture</option>
-                                <option value={'interior'}>Interior</option>
-                                <option value={'kitchen'}>Kitchen</option>
-                                <option value={'lamp'}>Lamp</option>
-                                <option value={'modern'}>Modern</option>
+                                {categories !=null ? categories?.map((e) => {
+                                    return(
+                                        <>
+                                            <option key={e.id} value={`${e.id}`}>{e.category_name}</option>
+                                        </>
+                                    );
+                                }) : null}
                             </select>
                             {errors.categoryId ? <span className='text-red-600'>{errors.categoryId}</span> : null}
                         </div>
@@ -165,19 +168,22 @@ const ProductForm = ({errors, handleSubmit, handleChange, image, colorComponent}
 
 let arrImg = [];
 function AddNewProduct() {
-    const role = useSelector((state) => state.auth.role)
+    const dispatch = useDispatch();
+    const router = useRouter();
+    const role = useSelector((state) => state.auth.role);
     const [imgFile, setImgFile] = React.useState();
     
     const [moneyNumber, setMoneyNumber] = React.useState([]);
     const [imgArr, setImgArr] = React.useState([]);
     
     const menuTab = ['Profile', 'My Product', 'Selling Product', 'My Order'];
-    const linkTo = [`/profile/${role==='Seller'?'Seller':'Customer'}`, '/profile/my-product', '/profile/add-product', '/order'];
+    const linkTo = [`/profile/${role==='seller'?'seller':'customer'}`, '/profile/my-product?page=1&limit=5', '/profile/add-product', '/order'];
     const indexTab = 2;
     const [isChecked, setIsChecked] = React.useState(0);
-
+    
     const onSubmitProduct = (val, e) => {
         let colorProduct;
+        let condition;
         switch (isChecked) {
         case 1:
             colorProduct='black';
@@ -198,12 +204,28 @@ function AddNewProduct() {
             colorProduct='';
             break;
         }
-        const data = {...val, images: arrImg, color: colorProduct};
-        console.log(data);
+        if(val.newProduct == true){
+            condition='new';
+        }
+        if(val.secondProduct == true){
+            condition='second';
+        }
+        const data = {...val, images: arrImg, color: colorProduct, condition: condition};
+        dispatch(createProduct(data));
+        router.push('/profile/my-product');
         // console.log(imgFile);
     };
     const deleteImg = (i)=>{
         setImgArr((state)=>state.filter((item, index)=>index !== i));
+    };
+
+    const [order, setOrder] = React.useState({active: false, left: 0, top: 0});
+    const [product, setProduct] = React.useState({active: false, left: 0, top: 0});
+    const menuOrder = (e) => {
+        setOrder({active: !order.active, left: e.pageX - 60, top: e.pageY + 30});
+    };
+    const menuProduct = (e) => {
+        setProduct({active: !product.active, left: e.pageX - 60, top: e.pageY + 30});
     };
 
     React.useEffect(()=>{
@@ -224,13 +246,63 @@ function AddNewProduct() {
                     {menuTab.map((e,i)=>{
                         return (
                             <>
-                                <Link href={linkTo[i]}>
-                                    <a>
-                                        <div className={`${i === indexTab ? 'border-b-4' : ''} border-black`}>
-                                            <span className='text-2xl'>{e}</span>
+                                <div className='flex gap-5'>
+                                    <Link href={linkTo[i]}>
+                                        <a>
+                                            <div className={`${i === indexTab ? 'border-b-4' : ''} border-black`}>
+                                                <span className='text-2xl'>{e}</span>
+                                            </div>
+                                        </a>
+                                    </Link>
+                                    {i === 3 ? 
+                                        <>
+                                            <div className='flex items-center gap-2 cursor-pointer' onClick={(e)=> menuOrder(e)}>
+                                                <TbChevronDown />
+                                            </div> 
+                                        </>
+                                        : null
+                                    }
+                                    {i === 1 ? 
+                                        <>
+                                            <div className='flex items-center gap-2 cursor-pointer' onClick={(e)=> menuProduct(e)}>
+                                                <TbChevronDown />
+                                            </div> 
+                                        </>
+                                        : null
+                                    }
+                                </div>
+                                {
+                                    order.active&&
+                                    <div style={{top: order.top, left: order.left}} className={'absolute w-40 p-3rounded-md shadow-lg bg-black ring-1 ring-black ring-opacity-5 focus:outline-none'}>
+                                        <div className='py-1' role='none'>
+                                            <Link href='#'>
+                                                <a className='text-white block px-4 py-2 text-sm' role='menuitem' id='menu-item-0'>Account settings</a>    
+                                            </Link>
+                                            <Link href='#'>
+                                                <a className='text-white block px-4 py-2 text-sm' role='menuitem' id='menu-item-1'>Support</a>
+                                            </Link>
+                                            <Link href='#'>
+                                                <a className='text-white block px-4 py-2 text-sm' role='menuitem' id='menu-item-2'>License</a>
+                                            </Link>
                                         </div>
-                                    </a>
-                                </Link>
+                                    </div>
+                                }
+                                {
+                                    product.active&&
+                                    <div style={{top: product.top, left: product.left}} className={'absolute w-40 p-3 rounded-md shadow-lg bg-black ring-1 ring-black ring-opacity-5 focus:outline-none'}>
+                                        <div className='py-1' role='none'>
+                                            <Link href='#all'>
+                                                <a className='text-white block px-4 py-2 text-sm' role='menuitem' id='menu-item-1'>All</a>
+                                            </Link>
+                                            <Link href='#archive'>
+                                                <a className='text-white block px-4 py-2 text-sm' role='menuitem' id='menu-item-1'>Archive</a>
+                                            </Link>
+                                            <Link href='#soldout'>
+                                                <a className='text-white block px-4 py-2 text-sm' role='menuitem' id='menu-item-1'>Sold Out</a>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                }
                             </>
                         );
                     })}
