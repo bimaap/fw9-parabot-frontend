@@ -5,13 +5,23 @@ import Image from 'next/image';
 import Head from 'next/head';
 import Link from 'next/link';
 import Banner from '../../components/Banner';
-
+import { useSelector } from 'react-redux';
 import {FiEdit3, FiLogOut} from 'react-icons/fi';
+import { TbChevronDown } from 'react-icons/tb';
 
 function Seller() {
+    const role = useSelector((state) => state.auth.role);
     const menuTab = ['Profile', 'My Product', 'Selling Product', 'My Order'];
-    const linkTo = ['/profile/seller', '/profile/my-product', '/profile/add-product', '#'];
+    const linkTo = [`/profile/${role==='seller'?'seller':'customer'}`, '/profile/my-product?page=1&limit=5', '/profile/add-product', '/order'];
     const indexTab = 0;
+    const [order, setOrder] = React.useState({active: false, left: 0, top: 0});
+    const [product, setProduct] = React.useState({active: false, left: 0, top: 0});
+    const menuOrder = (e) => {
+        setOrder({active: !order.active, left: e.pageX - 60, top: e.pageY + 30});
+    };
+    const menuProduct = (e) => {
+        setProduct({active: !product.active, left: e.pageX - 60, top: e.pageY + 30});
+    };
     return (
         <>
             <Header />
@@ -25,13 +35,63 @@ function Seller() {
                     {menuTab.map((e,i)=>{
                         return (
                             <>
-                                <Link href={linkTo[i]}>
-                                    <a>
-                                        <div className={`${i === indexTab ? 'border-b-4' : ''} border-black`}>
-                                            <span className='text-2xl'>{e}</span>
+                                <div className='flex gap-5'>
+                                    <Link href={linkTo[i]}>
+                                        <a>
+                                            <div className={`${i === indexTab ? 'border-b-4' : ''} border-black`}>
+                                                <span className='text-2xl'>{e}</span>
+                                            </div>
+                                        </a>
+                                    </Link>
+                                    {i === 3 ? 
+                                        <>
+                                            <div className='flex items-center gap-2 cursor-pointer' onClick={(e)=> menuOrder(e)}>
+                                                <TbChevronDown />
+                                            </div> 
+                                        </>
+                                        : null
+                                    }
+                                    {i === 1 ? 
+                                        <>
+                                            <div className='flex items-center gap-2 cursor-pointer' onClick={(e)=> menuProduct(e)}>
+                                                <TbChevronDown />
+                                            </div> 
+                                        </>
+                                        : null
+                                    }
+                                </div>
+                                {
+                                    order.active&&
+                                    <div style={{top: order.top, left: order.left}} className={'absolute w-40 p-3rounded-md shadow-lg bg-black ring-1 ring-black ring-opacity-5 focus:outline-none'}>
+                                        <div className='py-1' role='none'>
+                                            <Link href='#'>
+                                                <a className='text-white block px-4 py-2 text-sm' role='menuitem' id='menu-item-0'>Account settings</a>    
+                                            </Link>
+                                            <Link href='#'>
+                                                <a className='text-white block px-4 py-2 text-sm' role='menuitem' id='menu-item-1'>Support</a>
+                                            </Link>
+                                            <Link href='#'>
+                                                <a className='text-white block px-4 py-2 text-sm' role='menuitem' id='menu-item-2'>License</a>
+                                            </Link>
                                         </div>
-                                    </a>
-                                </Link>
+                                    </div>
+                                }
+                                {
+                                    product.active&&
+                                    <div style={{top: product.top, left: product.left}} className={'absolute w-40 p-3 rounded-md shadow-lg bg-black ring-1 ring-black ring-opacity-5 focus:outline-none'}>
+                                        <div className='py-1' role='none'>
+                                            <Link href='#all'>
+                                                <a className='text-white block px-4 py-2 text-sm' role='menuitem' id='menu-item-1'>All</a>
+                                            </Link>
+                                            <Link href='#archive'>
+                                                <a className='text-white block px-4 py-2 text-sm' role='menuitem' id='menu-item-1'>Archive</a>
+                                            </Link>
+                                            <Link href='#soldout'>
+                                                <a className='text-white block px-4 py-2 text-sm' role='menuitem' id='menu-item-1'>Sold Out</a>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                }
                             </>
                         );
                     })}

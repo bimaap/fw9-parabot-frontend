@@ -7,13 +7,49 @@ import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import Image from 'next/image';
 import ImgDummy from '../../public/images/item-example.png';
 import CardProduct from '../../components/CardProduct';
+import cookies from 'next-cookie';
+import axiosServer from '../../helpers/httpServer';
+import Router from 'next/router';
 
-function Product() {
-    const itemsCol = [1,2,3,4,5,6,7,8,9,10,11,12];
+export async function getServerSideProps(context){
+    try{
+        const search = !context.query?.search?'':context.query.search;
+        const page = !context.query?.page? 1 :context.query.page;
+        const sortBy = !context.query?.sortBy? 'created_at': context.query.sortBy;
+        const sort = !context.query?.sort? 'asc': 'desc';
+        const product = await axiosServer.get(
+            `/products?search=${search}&sortBy=${sortBy}&sort=${sort}&page=${page}`
+        );
+        return{
+            props:{
+                dataProduct:product.data.result,
+                dataPage:product.data.pageInfo
+            }
+        };
+    }
+    catch(err){
+        console.log(err);
+        return {
+            props:{
+                isError:true
+            }
+        };
+    }
+};
+
+function Product(props) {
+    const itemsCol = props.dataProduct;
     const [showDropdown, setShowDropdown] = React.useState(false);
-    const [isActive, setIsActive] = React.useState(0);
-    const buttonPaginate = ['01', '02', '03', '04', '05'];
+    const [isActive, setIsActive] = React.useState('');
+    const [sorting,setSorting] = React.useState('asc');
+    const buttonPaginate = [];
+    for( let i = 1; i <= props.dataPage?.totalPage; i++){
+        buttonPaginate.push(i);
+    };
     const [paginate, setPaginet] = React.useState(buttonPaginate[0]);
+    React.useEffect(()=>{
+        Router.push(`/product/products?page=${paginate}&sortBy=${isActive}&sort=${sorting}`);
+    },[paginate,isActive,sorting]);
     return (
         <>
             <Header />
@@ -22,27 +58,28 @@ function Product() {
                 <SidebarProduct/>
                 <main className='col-start-4 col-end-13 ml-10'>
                     <div className='flex justify-between font-semibold'>
-                        <span className='text-sm'>Showing 1-16 of 39 Results</span>
+                        <span className='text-sm'>Showing 1-{props.dataProduct?.length} of {props.dataPage?.totalData} Results</span>
                         <div className='flex flex-col items-end'>
                             <button onClick={()=>{setShowDropdown(!showDropdown);}} className='flex justify-center items-center gap-3'>
                                 <span className='text-sm'>Sort by</span>
                                 {showDropdown ? <FiChevronUp/> : <FiChevronDown/>}
                             </button>
                             {showDropdown?<div className='bg-black w-40 flex flex-col py-10 px-5 gap-7 mt-10 absolute z-10 rounded-lg'>
-                                <span onClick={()=>{setIsActive(1); setShowDropdown(false);}} className={`${isActive == 1 ? 'text-white' : 'text-gray-400' } hover:text-white cursor-pointer`}>Latest Product</span>
-                                <span onClick={()=>{setIsActive(2); setShowDropdown(false);}} className={`${isActive == 2 ? 'text-white' : 'text-gray-400' } hover:text-white cursor-pointer`}>More Expensive</span>
-                                <span onClick={()=>{setIsActive(3); setShowDropdown(false);}} className={`${isActive == 3 ? 'text-white' : 'text-gray-400' } hover:text-white cursor-pointer`}>More Cheap</span>
+                                <span onClick={()=>{setIsActive('created_at'); setShowDropdown(false);}} className={`${isActive == 1 ? 'text-white' : 'text-gray-400' } hover:text-white cursor-pointer`}>Latest Product</span>
+                                <span onClick={()=>{setIsActive('price'); setSorting('decs');setShowDropdown(false);}} className={`${isActive == 2 ? 'text-white' : 'text-gray-400' } hover:text-white cursor-pointer`}>More Expensive</span>
+                                <span onClick={()=>{setIsActive('price'); setSorting('acs');setShowDropdown(false);}} className={`${isActive == 3 ? 'text-white' : 'text-gray-400' } hover:text-white cursor-pointer`}>More Cheap</span>
                             </div> : null}
                         </div>
                     </div>
                     <div className='grid grid-cols-3 gap-4'>
-                        {itemsCol.map((e,i)=>{
+                        {itemsCol?.map((e)=>{
                             return(
                                 <>
-                                    <CardProduct productUrl={`/product/${i}/details`} img={<Image src={ImgDummy} alt='img-dummy'/>} title='Coaster 506222-CO Loveseat' subtitle='$765.99' />
+                                    <CardProduct productUrl={`/product/${e.id}/details`} img={<Image src={e.product_images}  width={260} height={260} layout={'responsive'} alt='img-product'/>} title={e.product_name} subtitle={e.price} />
                                 </>
                             );
                         })}
+                        <br/>
                         <div className='flex gap-5 py-40'>
                             {buttonPaginate.map(e=>{
                                 return (
