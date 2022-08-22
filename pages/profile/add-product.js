@@ -25,6 +25,7 @@ const productSchema = Yup.object().shape({
     priceProduct: Yup.string().required('Fields is requied.'),
     stockProduct: Yup.string().required('Fields is requied.'),
     brandProduct: Yup.string().required('Fields is requied.'),
+    skuNumber: Yup.number().required('Fields is requied.')
 });
 
 const ProductForm = ({errors, handleSubmit, handleChange, image, colorComponent}) => {
@@ -309,7 +310,7 @@ function AddNewProduct() {
                 </div>
             </div>
             <section>
-                <Formik onSubmit={onSubmitProduct} initialValues={{nameProduct: '', descProduct: '', priceProduct: '', stockProduct: '', newProduct: false, secondProduct: false, imgProduct: null, brandProduct: '', categoryId: '', skuNumber: ''}}>
+                <Formik onSubmit={onSubmitProduct} validationSchema={productSchema} initialValues={{nameProduct: '', descProduct: '', priceProduct: '', stockProduct: '', newProduct: false, secondProduct: false, imgProduct: null, brandProduct: '', categoryId: '', skuNumber: ''}}>
                     {(props)=><ProductForm {...props} image={
                         <div className='flex gap-3'>
                             {imgArr.map((e,i)=>{
