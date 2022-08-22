@@ -1,13 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from '../../helpers/http';
+import {http3} from '../../helpers/http3';
 import qs from 'qs';
 
-export const sending = createAsyncThunk('/chat/sending',async({chat_id,content,receiver_id,sender_id})=>{
+export const sending = createAsyncThunk('/chat/sending',async(request)=>{
     const result = {};
-    console.log(chat_id,content,receiver_id,sender_id);
     try{
-        const send = qs.stringify({chat_id,content,receiver_id,sender_id});
-        const {data} = await axios.post('/chat/content',send);
+        const send = qs.stringify(request);
+        const {data} = await http3().post('/chat/content',send);
         console.log(data);
         result.text = data.content;
         return result;
@@ -22,7 +21,7 @@ export const sending = createAsyncThunk('/chat/sending',async({chat_id,content,r
 export const createChat = createAsyncThunk('chat/firstChat',async({receiver_id})=>{
     const result={};
     try{
-        const {data} = await axios.post('/chats',{receiver_id});
+        const {data} = await http3().post('/chats',{receiver_id});
         console.log(data);
     }
     catch(e){
@@ -33,7 +32,7 @@ export const createChat = createAsyncThunk('chat/firstChat',async({receiver_id})
 export const getChatting = createAsyncThunk('/chat/getChat',async({id})=>{
     const result = {};
     try{
-        const {data} = await axios.get(`/chat/content/${id}`);
+        const {data} = await http3().get(`/chat/content/${id}`);
         console.log(data);
         result.chat = data.result;
         return result;
@@ -48,7 +47,7 @@ export const getChatting = createAsyncThunk('/chat/getChat',async({id})=>{
 export const getAllChat = createAsyncThunk('/chats/allChat',async()=>{
     const result = {};
     try{
-        const {data} = await axios.get('/chats');
+        const {data} = await http3().get('/chats');
         console.log(data);
         result.allchat = data.result;
         return result;

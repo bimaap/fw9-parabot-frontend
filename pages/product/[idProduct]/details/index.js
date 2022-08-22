@@ -146,6 +146,9 @@ function ProductDetail() {
                             <button className='border border-gray-400 px-7 rounded-sm shadow-md hover:border-gray-800'>
                                 <span className='text-black font-semibold'>Add to wishlist</span>
                             </button>
+                            <button className='border border-gray-400 px-7 rounded-sm shadow-md hover:border-gray-800'>
+                                <span className='text-black font-semibold'>Chat Seller</span>
+                            </button>
                         </div>
                         <div className='flex flex-col text-xs gap-4'>
                             <span>SKU: N/A</span>

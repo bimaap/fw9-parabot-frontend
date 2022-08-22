@@ -10,6 +10,7 @@ import CardProduct from '../../components/CardProduct';
 import cookies from 'next-cookie';
 import axiosServer from '../../helpers/httpServer';
 import Router from 'next/router';
+import {BsShop} from 'react-icons/bs';
 
 export async function getServerSideProps(context){
     try{
@@ -73,9 +74,10 @@ function Product(props) {
                     </div>
                     <div className='grid grid-cols-3 gap-4'>
                         {itemsCol?.map((e)=>{
+                            console.log(e.product_images);
                             return(
                                 <>
-                                    <CardProduct productUrl={`/product/${e.id}/details`} img={<Image src={e.product_images}  width={260} height={260} layout={'responsive'} alt='img-product'/>} title={e.product_name} subtitle={e.price} />
+                                    <CardProduct productUrl={`/product/${e.id}/details`} img={e.product_images?<Image src={e.product_images.split(',')[0]}  width={260} height={260} layout={'responsive'} alt='img-product'/>:<BsShop size={260}/>} title={e.product_name} subtitle={e.price} />
                                 </>
                             );
                         })}
