@@ -7,7 +7,7 @@ import BgBanner from '../public/images/bg-banner.png';
 function Banner({basePath, basePathUrl, targetPath, targetPathUrl, titleBanner, subtitleBanner}) {
     return (
         <>
-            <div className='w-full'>
+            <div className='w-full -z-10'>
                 <div className='flex'>
                     <div className='w-full bg-white h-64 flex justify-center'>
                         <div className='absolute z-0 h-64 w-full px-20'>
