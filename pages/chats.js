@@ -7,7 +7,8 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import { useDispatch,useSelector } from 'react-redux';
 import { getAllChat, getChatting, sending } from '../redux/asyncAction/chats';
-import { costumeRecepient, costumeSelected } from '../redux/reducers/chats';
+import { costumeRecepient, costumeSelected, resetmsg } from '../redux/reducers/chats';
+import defaultimg from '../public/images/default.jpg';
 
 const schemaChat = Yup.object().shape({
     chats: Yup.string().min(1).required()
@@ -21,7 +22,7 @@ const FormChats = ({errors,handleChange,handleSubmit}) =>{
                     <input className='text-[14px] w-11/12' onChange={handleChange} placeholder='Write Massage Here' name='chats' type='text' isInvalid={!!errors.chats}/>
                 </div>
                 <div className='flex-none py-4 px-16 bg-[#1A1A1A]'>
-                    <button className='text-[#FFFFFF]'>Send Massage</button>
+                    <button type='submit' className='text-[#FFFFFF]'>Send Massage</button>
                 </div>
             </form>
             <span className='text-[#cb5858]' type='invalid'>{errors.chats}</span>
@@ -45,18 +46,14 @@ const ChatDynamic = ({content,sender}) =>{
     );
 };
 
-const WrapperDynamic = ({name,id,recepient}) => {
+const WrapperDynamic = ({image,name,id,recepient,sender}) => {
+    const auth = useSelector((state=>state.auth.id));
     const dispatch = useDispatch();
-    const select = () =>{
-        dispatch(costumeSelected(id));
-        dispatch(costumeRecepient(recepient));
-        dispatch(getChatting({id}));
-    };
     return(
         <>
-            <div onClick={()=>select()} className='p-11 flex items-center'>
+            <div onClick={()=>{dispatch(costumeSelected(id));auth==sender?dispatch(costumeRecepient(recepient)):dispatch(costumeRecepient(sender)); dispatch(getChatting({id}));}} className='p-11 flex items-center'>
                 <div className=''>
-                    <Image src='/vercel.svg' width={60} height={60} alt='profile'/>
+                    <Image src={image?image:defaultimg} width={60} height={60} alt='profile'/>
                 </div>
                 <div className=' ml-5' onClick>
                     <p className='chats-title text-[#1A1A1A]'>{name}</p>
@@ -72,14 +69,18 @@ const Chats = () => {
     const wrapper = useSelector((state=>state.chats.wrapper));
     const conversation = useSelector((state=>state.chats.conversation));
     const chat_id = useSelector((state=>state.chats.selected));
-    const sender_id = useSelector((state=>state.auth.id));
+    const sender = useSelector((state=>state.auth.id));
     const recepient_id =useSelector((state=>state.chats.recepient));
+    const succesmsg = useSelector((state=>state.chats.succesmsg));
     const sendChat = (val) =>{
-        dispatch(sending({chat_id,text:val.chats,recepient_id,sender_id}));
+        console.log(val.chats);
+        const request = {chat_id:chat_id,content:val.chats,recepient_id:recepient_id,sender:sender};
+        dispatch(sending(request));
     };
     React.useEffect(()=>{
+        dispatch(resetmsg());
         dispatch(getAllChat());
-    },[chat_id]);
+    },[succesmsg]);
     return (
         <>
             <Header/>
@@ -88,21 +89,11 @@ const Chats = () => {
                 <div className='  my-28 mx-36 '>
                     <div className='grid grid-cols-5 min-h-[800px]'>
                         <div className='col-span-2 border border-[#D1D1D1]'>
-                            <div className=' p-11 flex items-center bg-[#1A1A1A]'>
-                                {/* Data for user Login  */}
-                                <div className=''>
-                                    <Image src='/vercel.svg' width={60} height={60} alt='profile'/>
-                                </div>
-                                <div className=' ml-5'>
-                                    <p className='chats-title text-[#FFFFFF]'>Syifa Guys</p>
-                                    <p className='chats-text text-[#FFFFFF]'>online</p>
-                                </div>
-                            </div>
                             {wrapper&&wrapper.map((val)=>{
                                 console.log(val);
                                 return(
                                     <>
-                                        <WrapperDynamic name={val.full_name} id={val.id} recepient={val.recepient_id}/>;
+                                        <WrapperDynamic image={val.image} name={val.full_name} id={val.id} sender={val.sender_id} recepient={val.recepient_id}/>;
                                     </>
                                 );
                             })}
