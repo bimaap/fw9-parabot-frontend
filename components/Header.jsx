@@ -81,7 +81,7 @@ export default function Header(){
                             </div>
                         </div>
                     } */}
-                    <Link href={'/#'}><span className='font-semibold cursor-pointer'>BLOG</span></Link>
+                    <Link href={'/blog'}><span className='font-semibold cursor-pointer'>BLOG</span></Link>
                 </div>
                 <div className='flex gap-8 text-center justify-center text-gray-700'>
                     <div onClick={()=>{setShowDropdown(!showDropdown);}}><TbSearch className='text-2xl cursor-pointer' /></div>
@@ -91,8 +91,8 @@ export default function Header(){
                             <span id='search' onClick={()=>goSearch(props)} className={' hover:text-white cursor-pointer'}><TbSearch/></span>
                         </div> : null}
                     </Formik>
-                    <Link href={'/#'}><TbHeart className='text-2xl cursor-pointer' /></Link>
-                    <Link href={'/#'}><TbShoppingCart className='text-2xl cursor-pointer' /></Link>
+                    <Link href={'/favorite'}><TbHeart className='text-2xl cursor-pointer' /></Link>
+                    <Link href={'/cart'}><TbShoppingCart className='text-2xl cursor-pointer' /></Link>
                     {token?
                         <>
                             <div className='rounded-full overflow-hidden border-4 border-gray-400 w-[35px] h-[35px]' onClick={(e)=> pageProfile(e)}>

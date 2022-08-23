@@ -45,7 +45,7 @@ const ProductForm = ({errors, handleSubmit, handleChange, image, colorComponent}
                         <input
                             type='text'
                             name='nameProduct'
-                            className='shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light'
+                            className='shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 '
                             placeholder='Name of goods *'
                                     
                         />
@@ -54,7 +54,7 @@ const ProductForm = ({errors, handleSubmit, handleChange, image, colorComponent}
                             id='message'
                             name='descProduct'
                             rows='4'
-                            className='block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                            className='block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 '
                             placeholder='Description Product *'
                         ></textarea>
                         {errors.descProduct ? <span className='text-red-600'>{errors.descProduct}</span> : null}
@@ -70,7 +70,7 @@ const ProductForm = ({errors, handleSubmit, handleChange, image, colorComponent}
                             onChange={(e) =>
                                 setMoneyNumber((e.currentTarget.value))
                             }
-                            className='shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light'
+                            className='shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 '
                             placeholder='Unit price *'
                         />
                         {errors.priceProduct ? <span className='text-red-600'>{errors.priceProduct}</span> : null}
@@ -78,7 +78,7 @@ const ProductForm = ({errors, handleSubmit, handleChange, image, colorComponent}
                             <input
                                 type='number'
                                 name='stockProduct'
-                                className='shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light'
+                                className='shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 '
                                 placeholder='Unit Stock *'
                                         
                             />
@@ -110,7 +110,7 @@ const ProductForm = ({errors, handleSubmit, handleChange, image, colorComponent}
                             <input
                                 type='text'
                                 name='brandProduct'
-                                className='shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light'
+                                className='shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 '
                                 placeholder='Name brand *'
                                         
                             />
@@ -121,7 +121,7 @@ const ProductForm = ({errors, handleSubmit, handleChange, image, colorComponent}
                                     Category
                             </span>
                             
-                            <select name='categoryId' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
+                            <select name='categoryId' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 '>
                                 <option selected>Choose One Category</option>
                                 {Object.keys(categories).length && categories?.map((e) => {
                                     return(
@@ -140,7 +140,7 @@ const ProductForm = ({errors, handleSubmit, handleChange, image, colorComponent}
                             <input
                                 type='text'
                                 name='skuNumber'
-                                className='shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light'
+                                className='shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 '
                                 placeholder='Sku number *'
                                         
                             />
@@ -178,7 +178,7 @@ function AddNewProduct() {
     const [imgArr, setImgArr] = React.useState([]);
     
     const menuTab = ['Profile', 'My Product', 'Selling Product', 'My Order'];
-    const linkTo = [`/profile/${role==='seller'?'seller':'customer'}`, '/profile/my-product?page=1&limit=5', '/profile/add-product', '/order'];
+    const linkTo = [`/profile/${role==='seller'?'seller':'customer'}`, '/profile/my-product/all?page=1&limit=5', '/profile/add-product', '/order'];
     const indexTab = 2;
     const [isChecked, setIsChecked] = React.useState(0);
     
@@ -292,13 +292,13 @@ function AddNewProduct() {
                                     product.active&&
                                     <div style={{top: product.top, left: product.left}} className={'absolute w-40 p-3 rounded-md shadow-lg bg-black ring-1 ring-black ring-opacity-5 focus:outline-none'}>
                                         <div className='py-1' role='none'>
-                                            <Link href='#all'>
+                                            <Link href='/profile/my-product/all?page=1&limit=5'>
                                                 <a className='text-white block px-4 py-2 text-sm' role='menuitem' id='menu-item-1'>All</a>
                                             </Link>
-                                            <Link href='#archive'>
+                                            <Link href='/profile/my-product/archive?page=1&limit=5'>
                                                 <a className='text-white block px-4 py-2 text-sm' role='menuitem' id='menu-item-1'>Archive</a>
                                             </Link>
-                                            <Link href='#soldout'>
+                                            <Link href='/profile/my-product/sold-out?page=1&limit=5'>
                                                 <a className='text-white block px-4 py-2 text-sm' role='menuitem' id='menu-item-1'>Sold Out</a>
                                             </Link>
                                         </div>

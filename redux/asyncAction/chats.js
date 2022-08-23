@@ -18,11 +18,14 @@ export const sending = createAsyncThunk('/chat/sending',async(request)=>{
     }
 });
 
-export const createChat = createAsyncThunk('chat/firstChat',async({receiver_id})=>{
-    const result={};
+export const createChat = createAsyncThunk('chat/firstChat',async(request)=>{
+    const result = {};
     try{
-        const {data} = await http3().post('/chats',{receiver_id});
+        const send = qs.stringify(request);
+        const {data} = await http3().post('/chats',send);
         console.log(data);
+        result.msg = data.message;
+        return result;
     }
     catch(e){
         console.log(e);

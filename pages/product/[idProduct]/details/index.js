@@ -13,12 +13,38 @@ import ImgDummy2 from '../../../../public/images/sofa.png';
 import ImgProfile from '../../../../public/connor.png';
 import ImgProfile2 from '../../../../public/maudey.png';
 import { Formik } from 'formik';
+import axiosServer from '../../../../helpers/httpServer';
+import { useDispatch, useSelector } from 'react-redux';
+import { createChat } from '../../../../redux/asyncAction/chats';
+import Router from 'next/router';
+
+export async function getServerSideProps(context){
+    try{
+        const id = !context.query?.idProduct?'':context.query.idProduct;
+        const result = await axiosServer.get(
+            `/products/details/${id}`
+        );
+        return{
+            props:{
+                dataProduct:result.data.result
+            }
+        };
+    }
+    catch(err){
+        console.log(err);
+        return {
+            props:{
+                isError:true
+            }
+        };
+    }
+};
 
 const DetailProductTabContent = ({imgPath }) => {
     return (
         <>
             <div className='col-start-1 col-end-3'>
-                <Image src={imgPath} alt='imgDesc' height={450}/>
+                <Image src={imgPath} alt='imgDesc' width={450} height={450}/>
             </div>
             <div className='col-start-3 col-end-6'>
                 <span className='text-sm'>Donec accumsan auctor iaculis. Sed suscipit arcu ligula, at egestas magna molestie a. Proin ac ex maximus, ultrices justo eget, sodales orci. Aliquam egestas libero ac turpis pharetra, in vehicula lacus scelerisque. Vestibulum ut sem laoreet, feugiat tellus at, hendrerit arcu..</span>
@@ -64,8 +90,17 @@ const BreadCumbProductDetail = () => {
     );
 };
 
-function ProductDetail() {
-    const imgList = [ImgDummy,ImgDummy2,ImgDummy];
+function ProductDetail(props) {
+    const dispatch = useDispatch();
+    const product = props.dataProduct[0];
+    console.log(product);
+    const imagesProd = typeof(product.product_images);
+    const imgList = imagesProd !== 'string'?[]:[product.product_images];
+    if(imagesProd !== 'string'){
+        for( let i = 1; i <= product.product_image?.length; i++){
+            imgList.push(product.product_image[i]);
+        };
+    }
     const [chooseItem, setChooseItem] = React.useState(imgList[0]);
     const ratingItem = [1,2,3,4,5];
     const ratingValue = 2.5;
@@ -73,6 +108,17 @@ function ProductDetail() {
     const menuTab = ['Description', 'Review', 'Additional Information', 'About Brand', 'Shipping & Delivery'];
     const [tabActive, setTabActive] = React.useState(0);
     const [paginate, setPaginate] = React.useState(0);
+    const data = product.user_id;
+    const request = {recepient:data};
+    const succesmsg = useSelector((state=>state.chats.succesmsg));
+    const chatSeller = () =>{
+        dispatch(createChat(request));
+    };
+    React.useEffect(()=>{
+        if(succesmsg){
+            Router.push('/chats');
+        }
+    },succesmsg);
     return (
         <>
             <Head>
@@ -87,7 +133,7 @@ function ProductDetail() {
                             return(
                                 <>
                                     <div className='w-28 cursor-pointer mb-5' onClick={()=>setChooseItem(e)}>
-                                        <Image src={e} alt='dummy'/>
+                                        <Image width={100} height={100} src={e} alt='dummy'/>
                                     </div>
                                 </>
                             );
@@ -99,7 +145,7 @@ function ProductDetail() {
                 </div>
                 <div className='mt-40 mx-20'>
                     <div className=' flex flex-col gap-5'>
-                        <h1 className='text-3xl'>Coaster Home Furnishings Sofa in Oatmeal</h1>
+                        <h1 className='text-3xl'>{product.product_name}</h1>
                         <div className='flex gap-4 justify-start items-center'>
                             <div className='flex gap-2'>
                                 {ratingItem.map((e,i)=>{
@@ -116,14 +162,14 @@ function ProductDetail() {
                             </div>
                         </div>
                         <div className='grid grid-cols-2'>
-                            <span className='text-3xl font-bold'>$765.99</span>
+                            <span className='text-3xl font-bold'>$ {product.price}</span>
                             <div className='flex gap-3 items-center'>
                                 <FiCheckCircle/>
-                                <span className='text-xs font-base'>19 Sold / 40 In Stock</span>
+                                <span className='text-xs font-base'>{product.sold} Sold / {product.stock} In Stock</span>
                             </div>
                         </div>
                         <div className='text-base'>
-                            <span>Donec nunc nunc, gravida vitae diam vel, varius interdum erat. Quisque a nunc vel diam auctor commodo. Curabitur blandit ultrices exurabitur ut magna dignissim, dignissiNullam vitae venenatis elit. Proin dui lacus, viverra at imperdiet non, facilisis eget orci. Vivamus ac elit tellus. Vestibulum nulla dui, consequat vitae diam eu, pretium finibus libero. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam vitae neque tellus.</span>
+                            <span>{product.description}</span>
                         </div>
                         <div className='flex gap-3 my-7'>
                             <div className='p-4 border border-gray-400 flex items-center gap-4 rounded-sm shadow-md'>
@@ -146,15 +192,15 @@ function ProductDetail() {
                             <button className='border border-gray-400 px-7 rounded-sm shadow-md hover:border-gray-800'>
                                 <span className='text-black font-semibold'>Add to wishlist</span>
                             </button>
-                            <button className='border border-gray-400 px-7 rounded-sm shadow-md hover:border-gray-800'>
+                            <button onClick={chatSeller} className='border border-gray-400 px-7 rounded-sm shadow-md hover:border-gray-800'>
                                 <span className='text-black font-semibold'>Chat Seller</span>
                             </button>
                         </div>
                         <div className='flex flex-col text-xs gap-4'>
-                            <span>SKU: N/A</span>
-                            <span>Categories: Furniture, Interior, Chair</span>
+                            <span>SKU:{product.sku}</span>
+                            <span>Categories:{product.categories.category_name} </span>
                             <span>Tag: Furniture, Chair, Modern</span>
-                            <span>Product ID: 278</span>
+                            <span>Product ID:{product.id}</span>
                         </div>
                         <div className='flex gap-5 my-7'>
                             <div className='flex gap-1 text-sm items-center'>
@@ -212,7 +258,7 @@ function ProductDetail() {
                             <div className='flex flex-col items-center'>                                
                                 <div className='flex gap-10 items-center border-b-2 pb-16'>
                                     <div className='flex justify-start w-1/2'>
-                                        <Image src={ImgProfile} alt='img1' width='150px' height='150px' objectFit='cover' className='rounded-full'/>
+                                        <Image src={ImgProfile} alt='img1' width={150} height={150} objectFit='cover' className='rounded-full'/>
                                     </div>
                                     <div className='flex flex-col gap-5'>
                                         <span>{'“Highly customizable. Excellent design. Customer services has exceeded my expectation. They are quick to answer and even when they don\'t know the answer right away. They\'ll work with you towards a solution.”'}</span>
@@ -224,7 +270,7 @@ function ProductDetail() {
                                 </div>
                                 <div className='flex gap-10 items-center border-b-2 pb-16 pt-16'>
                                     <div className='flex justify-start w-1/2'>
-                                        <Image src={ImgProfile2} alt='img1' width='150px' height='150px' objectFit='cover' className='rounded-full'/>
+                                        <Image src={ImgProfile2} alt='img1'width={150} height={150} objectFit='cover' className='rounded-full'/>
                                     </div>
                                     <div className='flex flex-col gap-5'>
                                         <span>{'“Highly customizable. Excellent design. Customer services has exceeded my expectation. They are quick to answer and even when they don\'t know the answer right away. They\'ll work with you towards a solution.”'}</span>
@@ -236,7 +282,7 @@ function ProductDetail() {
                                 </div>
                                 <div className='flex gap-10 items-center border-b-2 pb-16 pt-16'>
                                     <div className='flex justify-start w-1/2'>
-                                        <Image src={ImgProfile} alt='img1' width='150px' height='150px' objectFit='cover' className='rounded-full'/>
+                                        <Image src={ImgProfile} alt='img1' width={150} height={150} objectFit='cover' className='rounded-full'/>
                                     </div>
                                     <div className='flex flex-col gap-5'>
                                         <span>{'“Highly customizable. Excellent design. Customer services has exceeded my expectation. They are quick to answer and even when they don\'t know the answer right away. They\'ll work with you towards a solution.”'}</span>
@@ -316,7 +362,7 @@ function ProductDetail() {
                                     return (
                                         <>
                                             <div className='flex flex-col gap-3 p-4 shadow-md'>
-                                                <Image src={e} alt='productRelated'/>
+                                                <Image width={100} height={100} src={e} alt='productRelated'/>
                                                 <span className='text-xl'>Coaster 506222-CO Loveseat</span>
                                                 <span className='text-lg font-bold'>$765.99</span>
                                             </div>
