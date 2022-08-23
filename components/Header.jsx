@@ -91,8 +91,8 @@ export default function Header(){
                             <span id='search' onClick={()=>goSearch(props)} className={' hover:text-white cursor-pointer'}><TbSearch/></span>
                         </div> : null}
                     </Formik>
-                    <Link href={'/#'}><TbHeart className='text-2xl cursor-pointer' /></Link>
-                    <Link href={'/#'}><TbShoppingCart className='text-2xl cursor-pointer' /></Link>
+                    <Link href={'/favorite'}><TbHeart className='text-2xl cursor-pointer' /></Link>
+                    <Link href={'/cart'}><TbShoppingCart className='text-2xl cursor-pointer' /></Link>
                     {token?
                         <>
                             <div className='rounded-full overflow-hidden border-4 border-gray-400 w-[35px] h-[35px]' onClick={(e)=> pageProfile(e)}>

@@ -6,8 +6,6 @@ import Link from 'next/link';
 import { connect } from 'react-redux';
 import { decrement, increment } from '../redux/reducers/counter';
 import React, { useState } from 'react';
-import {axiosApiIntances} from '../helpers/httpServer';
-import cookies from 'next-cookies';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCart } from '../redux/asyncAction/cart';
 
